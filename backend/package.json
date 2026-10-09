@@ -1,0 +1,29 @@
+{
+  "name": "aurora-intimates-backend",
+  "version": "1.0.0",
+  "description": "API REST de Aurora Intimates (Render)",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "aurora",
+    "intimates",
+    "express",
+    "supabase"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.58.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
+  }
+}

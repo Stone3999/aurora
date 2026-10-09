@@ -1,0 +1,42 @@
+<!-- Catalog Section -->
+<section id="coleccion" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+    <span class="text-xs uppercase tracking-[0.25em] text-brand-gold font-medium">Catálogo Exclusivo</span>
+    <h2 class="font-serif text-3xl sm:text-5xl text-brand-charcoal">Colección de Cacheteros</h2>
+    <p class="text-sm text-brand-charcoal/70 font-light">
+      Diseñados para abrazar tus curvas con sofisticación en tonos pasteles atemporales.
+    </p>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12">
+    @for (filter of products.filters; track filter.key) {
+      @if (products.activeFilter() === filter.key) {
+        <button
+          (click)="setFilter(filter.key)"
+          class="filter-btn active px-6 py-2.5 rounded-full text-xs font-medium uppercase tracking-wider transition-all bg-brand-charcoal text-white"
+        >
+          {{ filter.label }}
+        </button>
+      } @else {
+        <button
+          (click)="setFilter(filter.key)"
+          class="filter-btn px-6 py-2.5 rounded-full text-xs font-medium uppercase tracking-wider transition-all bg-white border border-brand-rose text-brand-charcoal hover:bg-brand-rose/30"
+        >
+          {{ filter.label }}
+        </button>
+      }
+    }
+  </div>
+
+  <!-- Products Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    @for (product of products.visibleProducts(); track product.id) {
+      <app-product-card [product]="product" />
+    } @empty {
+      <p class="col-span-full text-center text-sm text-brand-charcoal/60 font-light py-12">
+        No hay productos en esta categoría por ahora.
+      </p>
+    }
+  </div>
+</section>

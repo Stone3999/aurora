@@ -1,0 +1,93 @@
+<!-- Quick View Modal -->
+@if (cart.isQuickViewOpen() && product(); as p) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-charcoal/50 backdrop-blur-sm"
+    (click)="close()"
+  >
+    <div
+      class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl border border-brand-rose/30 max-h-[90vh] overflow-y-auto"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        (click)="close()"
+        class="absolute top-4 right-4 text-brand-charcoal/60 hover:text-brand-charcoal"
+        aria-label="Cerrar"
+      >
+        <app-icon name="x" class="w-6 h-6" />
+      </button>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+        <div
+          class="aspect-square rounded-2xl flex items-center justify-center p-6"
+          [style.background-color]="color()?.hex + '50'"
+        >
+          <svg
+            viewBox="0 0 200 130"
+            class="w-full h-48 filter drop-shadow-lg"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20 30 C70 20, 130 20, 180 30 C185 55, 180 85, 165 100 C135 112, 110 98, 100 95 C90 98, 65 112, 35 100 C20 85, 15 55, 20 30 Z"
+              [attr.fill]="color()?.hex"
+              stroke="#FAF7F5"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+
+        <div class="space-y-4">
+          <span class="text-xs uppercase tracking-widest text-brand-gold font-medium">{{ p.tag }}</span>
+          <h3 class="font-serif text-2xl font-bold text-brand-charcoal">{{ p.name }}</h3>
+          <p class="font-serif text-xl text-brand-gold font-bold">${{ p.price.toFixed(2) }} USD</p>
+          <p class="text-xs text-brand-charcoal/70 leading-relaxed">{{ p.description }}</p>
+
+          @if (p.colors.length > 1) {
+            <div class="space-y-2">
+              <span class="text-xs font-semibold uppercase tracking-wider block">
+                Color: {{ color()?.name }}
+              </span>
+              <div class="flex space-x-2">
+                @for (c of p.colors; track c.name) {
+                  <button
+                    (click)="selectColor(c.hex, c.name)"
+                    class="w-7 h-7 rounded-full border border-black/10 transition-transform hover:scale-110"
+                    [class.ring-2]="isColorSelected(c.name)"
+                    [class.ring-brand-gold]="isColorSelected(c.name)"
+                    [class.scale-110]="isColorSelected(c.name)"
+                    [style.background-color]="c.hex"
+                    [title]="c.name"
+                    [attr.aria-label]="c.name"
+                  ></button>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="space-y-2">
+            <span class="text-xs font-semibold uppercase tracking-wider block">Talla:</span>
+            <div class="flex space-x-2">
+              @for (size of sizes; track size) {
+                <button
+                  (click)="selectSize(size)"
+                  class="w-9 h-9 rounded-xl border border-brand-rose text-xs font-medium hover:border-brand-gold focus:ring-2 focus:ring-brand-gold"
+                  [class.bg-brand-blush]="localSize() === size"
+                  [class.border-brand-gold]="localSize() === size"
+                >
+                  {{ size }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <button
+            (click)="addToCart()"
+            class="w-full py-3.5 bg-brand-charcoal text-white rounded-2xl text-xs uppercase tracking-widest font-medium hover:bg-brand-gold transition-colors"
+          >
+            Agregar al Carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

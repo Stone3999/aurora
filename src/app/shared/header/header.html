@@ -1,0 +1,142 @@
+<!-- Announcement Bar -->
+<div class="bg-brand-rose/60 text-brand-charcoal text-xs tracking-widest text-center py-2 px-4 uppercase font-medium">
+  ✨ Envíos discretos gratis en compras mayores a $50 | 10% OFF en tu primera compra
+</div>
+
+<!-- Navigation Header -->
+<header class="sticky top-0 z-40 bg-[#FAF7F5]/85 backdrop-blur-custom border-b border-brand-rose/30 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Mobile Menu Toggle -->
+    <button
+      (click)="toggleMobileMenu()"
+      class="lg:hidden text-brand-charcoal p-2 focus:outline-none"
+      aria-label="Abrir menú"
+    >
+      <app-icon name="menu" class="w-6 h-6" />
+    </button>
+
+    <!-- Brand Logo -->
+    <a href="/" class="text-center group">
+      <span
+        class="block font-serif text-2xl sm:text-3xl tracking-[0.25em] font-semibold text-brand-charcoal uppercase"
+        >AURORA</span
+      >
+      <span
+        class="block text-[9px] uppercase tracking-[0.3em] text-brand-gold font-medium -mt-1 group-hover:tracking-[0.4em] transition-all"
+        >Intimates</span
+      >
+    </a>
+
+    <!-- Desktop Links -->
+    <nav class="hidden lg:flex items-center space-x-8 text-xs font-medium tracking-widest uppercase">
+      @for (link of navLinks; track link.href) {
+        <a
+          [href]="link.href"
+          class="hover:text-brand-gold transition-colors py-2 border-b-2 border-transparent hover:border-brand-gold"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+
+    <!-- Action Icons -->
+    <div class="flex items-center space-x-5">
+      @if (auth.user(); as user) {
+        <div class="relative">
+          <button
+            (click)="toggleAccount($event)"
+            class="flex items-center space-x-2 text-brand-charcoal hover:text-brand-gold transition-colors p-2 focus:outline-none"
+            aria-label="Mi cuenta"
+          >
+            <span
+              class="w-8 h-8 rounded-full bg-brand-lavender/60 border border-brand-rose text-brand-charcoal flex items-center justify-center font-serif text-sm font-semibold"
+            >
+              {{ auth.displayName().charAt(0).toUpperCase() }}
+            </span>
+          </button>
+
+          @if (isAccountOpen()) {
+            <div
+              class="absolute right-0 top-full mt-3 w-64 bg-white border border-brand-rose/40 rounded-2xl shadow-xl p-5 space-y-4 text-left"
+              (click)="$event.stopPropagation()"
+            >
+              <div class="space-y-1">
+                <p class="font-serif text-lg font-semibold text-brand-charcoal">
+                  {{ auth.displayName() }}
+                </p>
+                <p class="text-[11px] text-brand-charcoal/60 truncate">{{ user.email }}</p>
+              </div>
+              <div class="pt-3 border-t border-brand-blush">
+                <a
+                  href="/#coleccion"
+                  class="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-charcoal hover:text-brand-gold py-2"
+                >
+                  <app-icon name="shopping-bag" class="w-4 h-4" />
+                  Ver colección
+                </a>
+                <button
+                  (click)="logout()"
+                  class="flex items-center gap-2 text-xs uppercase tracking-widest text-brand-charcoal hover:text-brand-gold py-2 w-full"
+                >
+                  <app-icon name="log-out" class="w-4 h-4" />
+                  Cerrar sesión
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <button
+          (click)="goToAuth()"
+          class="text-brand-charcoal hover:text-brand-gold transition-colors p-2"
+          aria-label="Iniciar sesión o registrarse"
+          title="Iniciar sesión o registrarse"
+        >
+          <app-icon name="user" class="w-5 h-5" />
+        </button>
+      }
+
+      <button
+        (click)="cart.toggleCart()"
+        class="relative text-brand-charcoal hover:text-brand-gold transition-colors p-2"
+        aria-label="Carrito de compras"
+      >
+        <app-icon name="shopping-bag" class="w-5 h-5" />
+        <span
+          class="absolute -top-1 -right-1 bg-brand-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center"
+          >{{ cart.totalItems() }}</span
+        >
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Nav Menu -->
+  @if (isMobileMenuOpen()) {
+    <div
+      class="lg:hidden bg-[#FAF7F5] border-b border-brand-rose/40 px-6 py-6 space-y-4 text-sm font-medium uppercase tracking-widest"
+    >
+      @for (link of navLinks; track link.href) {
+        <a
+          [href]="link.href"
+          (click)="closeMobileMenu()"
+          class="block text-brand-charcoal hover:text-brand-gold"
+          >{{ link.label }}</a
+        >
+      }
+      @if (auth.user()) {
+        <button
+          (click)="logout()"
+          class="block w-full text-left text-brand-charcoal hover:text-brand-gold"
+        >
+          Cerrar sesión
+        </button>
+      } @else {
+        <a
+          href="/login"
+          (click)="closeMobileMenu()"
+          class="block text-brand-charcoal hover:text-brand-gold"
+          >Iniciar sesión</a
+        >
+      }
+    </div>
+  }
+</header>

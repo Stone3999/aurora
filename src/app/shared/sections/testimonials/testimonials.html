@@ -1,0 +1,27 @@
+<!-- Testimonials Section -->
+<section id="opiniones" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center max-w-xl mx-auto mb-16 space-y-2">
+    <span class="text-xs uppercase tracking-[0.25em] text-brand-gold font-medium">Experiencias Reales</span>
+    <h2 class="font-serif text-3xl sm:text-4xl text-brand-charcoal">Lo que dicen nuestras clientas</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    @for (t of testimonials; track t.name) {
+      <div class="bg-white p-8 rounded-3xl border border-brand-rose/30 shadow-sm space-y-4 relative">
+        <div class="flex text-brand-gold space-x-1">
+          @for (s of stars; track s) {
+            <app-icon name="star" class="w-4 h-4 fill-current" />
+          }
+        </div>
+        <p class="text-sm text-brand-charcoal/80 font-light italic leading-relaxed">{{ t.quote }}</p>
+        <div class="pt-4 border-t border-brand-blush flex items-center justify-between">
+          <div>
+            <p class="font-serif text-base font-semibold text-brand-charcoal">{{ t.name }}</p>
+            <p class="text-[10px] uppercase text-brand-charcoal/50">Cliente Verificada</p>
+          </div>
+          <span class="text-xs text-brand-gold font-medium">{{ t.product }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,53 @@
+<app-header />
+
+<!-- Welcome strip: cambia según haya sesión o no -->
+@if (auth.user(); as user) {
+  <div class="bg-brand-lavender/40 border-b border-brand-rose/30">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-2"
+    >
+      <p class="text-xs text-brand-charcoal/80 font-light">
+        ¡Hola, <span class="font-semibold">{{ auth.displayName() }}</span>! Ya puedes agregar a tu
+        carrito y completar tu pedido ✨
+      </p>
+      <p class="text-[10px] uppercase tracking-widest text-brand-charcoal/50">
+        Sesión activa · {{ user.email }}
+      </p>
+    </div>
+  </div>
+} @else {
+  <div class="bg-brand-blush/70 border-b border-brand-rose/30">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-3"
+    >
+      <p class="text-xs text-brand-charcoal/80 font-light flex items-center gap-2">
+        <app-icon name="eye" class="w-4 h-4 text-brand-gold shrink-0" />
+        Estás navegando como invitada: puedes ver todo el catálogo, pero necesitas una cuenta para
+        agregar al carrito.
+      </p>
+      <button
+        (click)="goToLogin()"
+        class="flex items-center gap-2 px-5 py-2 bg-brand-charcoal text-white rounded-full text-[10px] uppercase tracking-widest font-medium hover:bg-brand-gold transition-colors shrink-0"
+      >
+        <app-icon name="user" class="w-3.5 h-3.5" />
+        Iniciar sesión o registrarse
+      </button>
+    </div>
+  </div>
+}
+
+<main>
+  <app-hero />
+  <app-pillars />
+  <app-catalog />
+  <app-slogan />
+  <app-testimonials />
+  <app-newsletter />
+</main>
+
+<app-footer />
+
+<app-cart-drawer />
+<app-quick-view />
+<app-auth-required />
+<app-toast />

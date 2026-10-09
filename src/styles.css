@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles & utilities matching Aurora Intimates design */
+.backdrop-blur-custom {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #2D282A 0%, #6B5B5E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom scrollbar for drawer and page */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FDF0ED;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8C3BC;
+  border-radius: 9999px;
+}

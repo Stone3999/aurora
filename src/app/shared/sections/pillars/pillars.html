@@ -1,0 +1,18 @@
+<!-- Brand Value Pillars -->
+<section id="calidad" class="py-16 bg-white border-y border-brand-rose/30">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      @for (pillar of pillars; track pillar.title) {
+        <div [class]="pillar.wrapper">
+          <div class="p-3 bg-white rounded-xl text-brand-gold shadow-sm">
+            <app-icon [name]="pillar.icon" class="w-6 h-6" />
+          </div>
+          <div>
+            <h2 class="font-serif text-lg font-semibold text-brand-charcoal">{{ pillar.title }}</h2>
+            <p class="text-xs text-brand-charcoal/70 mt-1 leading-relaxed">{{ pillar.text }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

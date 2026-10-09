@@ -1,0 +1,256 @@
+<app-header />
+
+<main class="relative min-h-screen bg-gradient-to-br from-brand-blush via-[#FAF7F5] to-brand-lavender/40 px-4 py-12 sm:py-16 overflow-hidden">
+  <!-- Ambient blobs -->
+  <div
+    class="absolute top-16 left-8 w-72 h-72 bg-brand-rose/30 rounded-full blur-3xl pointer-events-none"
+  ></div>
+  <div
+    class="absolute bottom-8 right-8 w-96 h-96 bg-brand-lavender/50 rounded-full blur-3xl pointer-events-none"
+  ></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <!-- Brand Panel -->
+    <div class="hidden lg:flex flex-col justify-center space-y-6 pr-6">
+      <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium">
+        Club de Privilegios Aurora
+      </span>
+      <h1 class="font-serif text-5xl xl:text-6xl leading-[1.1] text-gradient font-normal tracking-tight">
+        Tu colección favorita<br />
+        <span class="italic font-light text-brand-gold">espera por ti</span>
+      </h1>
+      <p class="text-base text-brand-charcoal/70 font-light leading-relaxed max-w-md">
+        Crea tu cuenta para guardar tu carrito, conservar tus tallas favoritas y recibir cada pedido
+        en un empaque totalmente discreto, sin logos exteriores.
+      </p>
+
+      <div class="space-y-3 pt-2">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-white rounded-xl text-brand-gold shadow-sm">
+            <app-icon name="shopping-bag" class="w-5 h-5" />
+          </div>
+          <p class="text-sm text-brand-charcoal/80 font-light">Carrito guardado en tu cuenta</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-white rounded-xl text-brand-gold shadow-sm">
+            <app-icon name="truck" class="w-5 h-5" />
+          </div>
+          <p class="text-sm text-brand-charcoal/80 font-light">Envíos discretos a todo el país</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-white rounded-xl text-brand-gold shadow-sm">
+            <app-icon name="sparkles" class="w-5 h-5" />
+          </div>
+          <p class="text-sm text-brand-charcoal/80 font-light">10% OFF en tu primera compra</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auth Card -->
+    <div
+      class="bg-white/90 backdrop-blur-custom rounded-3xl border border-brand-rose/30 shadow-2xl p-7 sm:p-10"
+    >
+      @if (isRegister()) {
+        <span class="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-medium">
+          Bienvenida
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-brand-charcoal mt-2 mb-1">Crea tu cuenta</h2>
+        <p class="text-xs text-brand-charcoal/70 font-light mb-7">
+          Un par de datos y empiezas a comprar sin marcas.
+        </p>
+      } @else {
+        <span class="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-medium">
+          Qué gusto verte
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-brand-charcoal mt-2 mb-1">
+          Inicia sesión
+        </h2>
+        <p class="text-xs text-brand-charcoal/70 font-light mb-7">
+          Accede a tu carrito y a tus pedidos Aurora.
+        </p>
+      }
+
+      <!-- Tabs -->
+      <div class="grid grid-cols-2 gap-1 p-1 bg-brand-blush rounded-full mb-7">
+        <button
+          type="button"
+          (click)="setMode('login')"
+          class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
+          [class.bg-white]="mode() === 'login'"
+          [class.text-brand-charcoal]="mode() === 'login'"
+          [class.shadow-sm]="mode() === 'login'"
+          [class.text-brand-charcoal/50]="mode() !== 'login'"
+        >
+          Iniciar Sesión
+        </button>
+        <button
+          type="button"
+          (click)="setMode('register')"
+          class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
+          [class.bg-white]="mode() === 'register'"
+          [class.text-brand-charcoal]="mode() === 'register'"
+          [class.shadow-sm]="mode() === 'register'"
+          [class.text-brand-charcoal/50]="mode() !== 'register'"
+        >
+          Crear Cuenta
+        </button>
+      </div>
+
+      <form (submit)="submit($event)" class="space-y-4">
+        @if (isRegister()) {
+          <div class="space-y-1.5">
+            <label for="fullName" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
+              Nombre completo
+            </label>
+            <div class="relative">
+              <app-icon
+                name="user"
+                class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+              />
+              <input
+                id="fullName"
+                type="text"
+                name="fullName"
+                required
+                [(ngModel)]="fullName"
+                placeholder="Valeria Martinez"
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+              />
+            </div>
+          </div>
+        }
+
+        <div class="space-y-1.5">
+          <label for="email" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
+            Correo electronico
+          </label>
+          <div class="relative">
+            <app-icon
+              name="mail"
+              class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+            />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              required
+              [(ngModel)]="email"
+              placeholder="tu@correo.com"
+              class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="password" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
+            Contrasena
+          </label>
+          <div class="relative">
+            <app-icon
+              name="lock"
+              class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+            />
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              name="password"
+              required
+              [(ngModel)]="password"
+              placeholder="********"
+              class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+            />
+            <button
+              type="button"
+              (click)="showPassword.set(!showPassword())"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-charcoal/40 hover:text-brand-gold"
+              aria-label="Mostrar contrasena"
+            >
+              <app-icon name="eye" class="w-4 h-4" />
+            </button>
+          </div>
+          @if (isRegister()) {
+            <p class="text-[10px] text-brand-charcoal/50 font-light">Minimo 6 caracteres.</p>
+          }
+        </div>
+
+        @if (isRegister()) {
+          <div class="space-y-1.5">
+            <label
+              for="confirmPassword"
+              class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
+            >
+              Confirmar contrasena
+            </label>
+            <div class="relative">
+              <app-icon
+                name="lock"
+                class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+              />
+              <input
+                id="confirmPassword"
+                [type]="showPassword() ? 'text' : 'password'"
+                name="confirmPassword"
+                required
+                [(ngModel)]="confirmPassword"
+                placeholder="********"
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+              />
+            </div>
+          </div>
+        }
+
+        @if (errorMessage()) {
+          <div
+            class="flex items-start gap-2 p-3 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs"
+          >
+            <app-icon name="x" class="w-4 h-4 mt-0.5 shrink-0" />
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        @if (infoMessage()) {
+          <div
+            class="flex items-start gap-2 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs"
+          >
+            <app-icon name="check-circle-2" class="w-4 h-4 mt-0.5 shrink-0" />
+            <span>{{ infoMessage() }}</span>
+          </div>
+        }
+
+        <button
+          type="submit"
+          [disabled]="isSubmitting()"
+          class="w-full py-4 bg-brand-charcoal text-white rounded-full text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-gold transition-all duration-300 shadow-lg hover:shadow-brand-gold/20 disabled:opacity-60 flex items-center justify-center gap-2"
+        >
+          @if (isSubmitting()) {
+            <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
+            <span>{{ isRegister() ? 'Creando cuenta...' : 'Entrando...' }}</span>
+          } @else {
+            <span>{{ isRegister() ? 'Crear mi cuenta' : 'Iniciar sesion' }}</span>
+            <app-icon name="arrow-right" class="w-4 h-4" />
+          }
+        </button>
+      </form>
+
+      <div class="flex items-center gap-4 my-7">
+        <span class="h-px flex-1 bg-brand-rose/50"></span>
+        <span class="text-[10px] uppercase tracking-widest text-brand-charcoal/40">o</span>
+        <span class="h-px flex-1 bg-brand-rose/50"></span>
+      </div>
+
+      <button
+        type="button"
+        (click)="exploreAsGuest()"
+        class="w-full py-3.5 bg-white/80 border border-brand-charcoal/20 text-brand-charcoal rounded-full text-xs uppercase tracking-widest font-medium hover:bg-brand-rose/40 transition-all"
+      >
+        Explorar como invitado
+      </button>
+
+      <p class="text-[11px] text-brand-charcoal/50 font-light text-center mt-6 leading-relaxed">
+        Al continuar aceptas que Aurora Intimates trate tus datos con total discrecion.
+      </p>
+    </div>
+  </div>
+</main>
+
+<app-toast />

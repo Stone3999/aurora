@@ -1,0 +1,87 @@
+<div
+  class="bg-white rounded-3xl p-5 border border-brand-rose/30 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+>
+  <div>
+    <!-- Product Preview SVG Container -->
+    <div
+      class="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4 p-4 flex items-center justify-center transition-colors duration-300"
+      [style.background-color]="currentColor()?.hex + '40'"
+    >
+      <span
+        class="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] uppercase font-semibold tracking-wider text-brand-charcoal shadow-sm"
+      >
+        {{ product().tag }}
+      </span>
+
+      <!-- Dynamic SVG illustration preview that shifts tone -->
+      <svg
+        viewBox="0 0 200 130"
+        class="w-full h-32 filter drop-shadow transition-transform group-hover:scale-105 duration-300"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 30 C70 20, 130 20, 180 30 C185 55, 180 85, 165 100 C135 112, 110 98, 100 95 C90 98, 65 112, 35 100 C20 85, 15 55, 20 30 Z"
+          [attr.fill]="currentColor()?.hex"
+          opacity="0.95"
+          stroke="#FAF7F5"
+          stroke-width="2"
+        />
+        <path
+          d="M20 30 C70 42, 130 42, 180 30 C170 42, 160 52, 150 55 C115 48, 85 48, 50 55 C40 52, 30 42, 20 30 Z"
+          fill="#FFFFFF"
+          opacity="0.4"
+        />
+        <circle cx="60" cy="65" r="8" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2 2" />
+        <circle cx="140" cy="65" r="8" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="2 2" />
+      </svg>
+
+      <button
+        (click)="quickView()"
+        class="absolute bottom-3 right-3 bg-white/90 hover:bg-brand-gold hover:text-white text-brand-charcoal p-2 rounded-full shadow-sm transition-all opacity-0 group-hover:opacity-100"
+        aria-label="Ver detalle"
+      >
+        <app-icon name="eye" class="w-4 h-4" />
+      </button>
+    </div>
+
+    <!-- Info -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <h3 class="font-serif text-xl font-semibold text-brand-charcoal">{{ product().name }}</h3>
+        <span class="font-serif text-lg font-bold text-brand-gold">${{ product().price.toFixed(2) }}</span>
+      </div>
+      <p class="text-xs text-brand-charcoal/60 line-clamp-2 font-light">{{ product().description }}</p>
+    </div>
+
+    <!-- Color Selector -->
+    <div class="mt-4 pt-3 border-t border-brand-blush flex items-center justify-between">
+      <span class="text-[11px] text-brand-charcoal/50 uppercase tracking-wider">
+        Color: {{ currentColor()?.name }}
+      </span>
+      <div class="flex space-x-1.5">
+        @for (c of product().colors; track c.name; let idx = $index) {
+          <button
+            (click)="changeColor(idx)"
+            class="w-5 h-5 rounded-full border border-black/10 transition-transform hover:scale-105"
+            [class.ring-2]="isSelected(c.name)"
+            [class.ring-brand-gold]="isSelected(c.name)"
+            [class.scale-110]="isSelected(c.name)"
+            [style.background-color]="c.hex"
+            [title]="c.name"
+            [attr.aria-label]="c.name"
+          ></button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Add to cart CTA -->
+  <button
+    (click)="addToCart()"
+    class="mt-5 w-full py-3 bg-brand-blush border border-brand-rose/60 text-brand-charcoal rounded-2xl text-xs uppercase tracking-widest font-medium hover:bg-brand-charcoal hover:text-white transition-all flex items-center justify-center space-x-2"
+  >
+    <app-icon name="shopping-bag" class="w-3.5 h-3.5" />
+    <span>Agregar al Carrito</span>
+  </button>
+</div>

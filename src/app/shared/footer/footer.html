@@ -1,0 +1,59 @@
+<footer class="bg-brand-charcoal text-white/80 text-xs py-16 border-t border-brand-charcoal">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+    <div class="space-y-4">
+      <span class="font-serif text-2xl tracking-[0.2em] uppercase text-white block">AURORA</span>
+      <p class="text-white/60 leading-relaxed font-light">
+        Especialistas en cacheteros de encaje y lencería fina que combinan comodidad absoluta con
+        elegancia sutil.
+      </p>
+      <p class="text-brand-gold text-[11px] italic">"Lo que llevas debajo también importa"</p>
+    </div>
+
+    <div>
+      <h4 class="text-white uppercase tracking-widest font-semibold mb-4 text-xs">Colecciones</h4>
+      <ul class="space-y-2 text-white/60 font-light">
+        @for (item of collections; track item) {
+          <li>
+            <a href="/#coleccion" class="hover:text-brand-rose transition-colors">{{ item }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-white uppercase tracking-widest font-semibold mb-4 text-xs">
+        Atención al Cliente
+      </h4>
+      <ul class="space-y-2 text-white/60 font-light">
+        @for (item of support; track item) {
+          <li>
+            <a href="#" class="hover:text-brand-rose transition-colors">{{ item }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-white uppercase tracking-widest font-semibold mb-4 text-xs">
+        Contacto & Envíos
+      </h4>
+      <p class="text-white/60 leading-relaxed font-light mb-4">
+        Envíos 100% discretos a todo el país. Empaque neutro sin logos exteriores.
+      </p>
+      <div class="flex space-x-4 text-white/80">
+        <a href="#" class="hover:text-brand-gold"><app-icon name="instagram" class="w-5 h-5" /></a>
+        <a href="#" class="hover:text-brand-gold"><app-icon name="facebook" class="w-5 h-5" /></a>
+        <a href="#" class="hover:text-brand-gold">
+          <app-icon name="message-circle" class="w-5 h-5" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-white/40"
+  >
+    <p>© 2026 Aurora Intimates. Todos los derechos reservados.</p>
+    <p class="mt-2 sm:mt-0">Diseño Elegante Pastel</p>
+  </div>
+</footer>

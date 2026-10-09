@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: aurora-intimates-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Rellena estos valores en el panel de Render (Settings -> Environment)
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: FREE_SHIPPING_THRESHOLD
+        value: "50"
+      - key: SHIPPING_COST
+        value: "0"

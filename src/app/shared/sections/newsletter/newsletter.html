@@ -1,0 +1,37 @@
+<!-- Newsletter Section -->
+<section class="py-16 bg-brand-blush/60">
+  <div class="max-w-3xl mx-auto px-4 text-center space-y-6">
+    <span class="text-xs uppercase tracking-[0.25em] text-brand-gold font-medium">Club de Privilegios</span>
+    <h2 class="font-serif text-3xl sm:text-4xl text-brand-charcoal">
+      Recibe un 15% OFF en tu primer pedido
+    </h2>
+    <p class="text-sm text-brand-charcoal/70 font-light">
+      Suscríbete para recibir lanzamientos exclusivos, ventas privadas y consejos de cuidado para tu
+      lencería.
+    </p>
+
+    <form (submit)="subscribe($event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        name="email"
+        required
+        [(ngModel)]="email"
+        placeholder="Tu correo electrónico..."
+        class="flex-1 px-5 py-3.5 rounded-full bg-white border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold"
+      />
+      <button
+        type="submit"
+        [disabled]="isSubmitting()"
+        class="px-8 py-3.5 bg-brand-charcoal text-white rounded-full text-xs uppercase tracking-widest font-medium hover:bg-brand-gold transition-colors disabled:opacity-60"
+      >
+        {{ isSubmitting() ? 'Enviando…' : 'Suscribirme' }}
+      </button>
+    </form>
+
+    @if (showMessage()) {
+      <p class="text-xs text-emerald-700 font-medium">
+        ¡Gracias por suscribirte! Revisa tu bandeja de entrada.
+      </p>
+    }
+  </div>
+</section>

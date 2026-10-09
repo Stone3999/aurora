@@ -1,13 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
-  <title>AuroraIntimates</title>
+  <title>Aurora Intimates — Lo que llevas debajo también importa</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cormorant Garamond (Serif Elegante) & Plus Jakarta Sans (Sans Limpio) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blush: '#FDF0ED',
+              rose: '#F4D8D2',
+              lavender: '#EAE6F2',
+              cream: '#FAF9A8',
+              sage: '#E3E8E1',
+              nude: '#EFE3D5',
+              charcoal: '#2D282A',
+              gold: '#C5A059'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+<body class="bg-[#FAF7F5] text-brand-charcoal font-sans antialiased selection:bg-brand-rose selection:text-brand-charcoal overflow-x-hidden">
   <app-root></app-root>
 </body>
 </html>

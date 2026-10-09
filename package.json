@@ -28,6 +28,8 @@
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@supabase/supabase-js": "^2.117.3",
+    "asyncstorage": "^1.5.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
