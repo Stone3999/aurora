@@ -2,33 +2,51 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
-  <title>Aurora Intimates — Lo que llevas debajo también importa</title>
+  <title>LANË — Lo que llevas debajo también importa</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  
+
+  <!-- Marca -->
+  <meta name="description" content="LANË — Cacheteros y lencería fina de encaje. Elegancia y comodidad para cada día, con envíos 100% discretos.">
+  <meta name="author" content="LANË">
+  <meta name="theme-color" content="#FAF6F0">
+
+  <!-- Favicon: logo LANË -->
+  <link rel="icon" href="favicon.ico" sizes="32x32 180x180 192x192">
+  <link rel="icon" type="image/png" sizes="32x32" href="lane-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="lane-192.png">
+  <link rel="apple-touch-icon" href="lane-180.png">
+
+  <!-- Open Graph / redes sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LANË">
+  <meta property="og:title" content="LANË — Lo que llevas debajo también importa">
+  <meta property="og:description" content="Elegancia y comodidad para cada día. Cacheteros de encaje que moldean con delicadeza sin marcas.">
+  <meta property="og:image" href="lane-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- Google Fonts: Cormorant Garamond (Serif Elegante) & Plus Jakarta Sans (Sans Limpio) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
             brand: {
-              blush: '#FDF0ED',
-              rose: '#F4D8D2',
-              lavender: '#EAE6F2',
-              cream: '#FAF9A8',
-              sage: '#E3E8E1',
-              nude: '#EFE3D5',
-              charcoal: '#2D282A',
-              gold: '#C5A059'
+              blush: '#F8F2EC',
+              rose: '#E9D8CC',
+              lavender: '#E2D5D2',
+              cream: '#E7DDD2',
+              sage: '#E1E1CF',
+              nude: '#DBC7AC',
+              charcoal: '#48382C',
+              gold: '#8F6A38'
             }
           },
           fontFamily: {
@@ -40,7 +58,7 @@
     }
   </script>
 </head>
-<body class="bg-[#FAF7F5] text-brand-charcoal font-sans antialiased selection:bg-brand-rose selection:text-brand-charcoal overflow-x-hidden">
+<body class="bg-[#FAF6F0] text-brand-charcoal font-sans antialiased selection:bg-brand-rose selection:text-brand-charcoal overflow-x-hidden">
   <app-root></app-root>
 </body>
 </html>

@@ -43,9 +43,9 @@ const seedProducts = [
     description:
       'Encaje francés floral de alta elasticidad con puente de algodón puro. Moldeado sin marcas.',
     colors: [
-      { name: 'Lila Pastel', hex: '#EAE6F2' },
-      { name: 'Rosa Blush', hex: '#FDF0ED' },
-      { name: 'Verde Menta', hex: '#E3E8E1' }
+      { name: 'Lila Pastel', hex: '#E4DCE4' },
+      { name: 'Rosa Blush', hex: '#F2E4DC' },
+      { name: 'Verde Menta', hex: '#E4E6D8' }
     ]
   },
   {
@@ -58,8 +58,8 @@ const seedProducts = [
     description:
       'Acabado ultra plano perfecto para usar bajo vestidos ceñidos o pantalones de tela liviana.',
     colors: [
-      { name: 'Nude Marfil', hex: '#EFE3D5' },
-      { name: 'Rosa Blush', hex: '#FDF0ED' }
+      { name: 'Nude Marfil', hex: '#E6D7C4' },
+      { name: 'Rosa Blush', hex: '#F2E4DC' }
     ]
   },
   {
@@ -71,9 +71,9 @@ const seedProducts = [
     tag: 'Lujo Intimo',
     description: 'Detalles en satén brillante y finos bordados dorados. Estilo sofisticado y romántico.',
     colors: [
-      { name: 'Rosa Blush', hex: '#FDF0ED' },
-      { name: 'Lila Pastel', hex: '#EAE6F2' },
-      { name: 'Marfil Elegante', hex: '#FAF7F5' }
+      { name: 'Rosa Blush', hex: '#F2E4DC' },
+      { name: 'Lila Pastel', hex: '#E4DCE4' },
+      { name: 'Marfil Elegante', hex: '#F6F1E9' }
     ]
   },
   {
@@ -85,8 +85,8 @@ const seedProducts = [
     tag: 'Uso Diario',
     description: 'Algodón pima ultra suave transpirable con blonda delicada en contorno de cadera.',
     colors: [
-      { name: 'Verde Menta', hex: '#E3E8E1' },
-      { name: 'Lila Pastel', hex: '#EAE6F2' }
+      { name: 'Verde Menta', hex: '#E4E6D8' },
+      { name: 'Lila Pastel', hex: '#E4DCE4' }
     ]
   },
   {
@@ -99,8 +99,8 @@ const seedProducts = [
     description:
       'Diseño de pretina ancha que no marca ni saca rollitos. Cintura confortable de cobertura perfecta.',
     colors: [
-      { name: 'Rosa Blush', hex: '#FDF0ED' },
-      { name: 'Nude Marfil', hex: '#EFE3D5' }
+      { name: 'Rosa Blush', hex: '#F2E4DC' },
+      { name: 'Nude Marfil', hex: '#E6D7C4' }
     ]
   },
   {
@@ -112,7 +112,7 @@ const seedProducts = [
     tag: 'Edición Especial',
     description:
       'Caja de regalo incluye 3 cacheteros (Rosa, Lila y Menta) en empaque perfumado especial.',
-    colors: [{ name: 'Mix Pasteles', hex: '#EAE6F2' }]
+    colors: [{ name: 'Mix Pasteles', hex: '#E4DCE4' }]
   }
 ];
 

@@ -4,7 +4,7 @@
 </div>
 
 <!-- Navigation Header -->
-<header class="sticky top-0 z-40 bg-[#FAF7F5]/85 backdrop-blur-custom border-b border-brand-rose/30 transition-all duration-300">
+<header class="sticky top-0 z-40 bg-[#FAF6F0]/85 backdrop-blur-custom border-b border-brand-rose/30 transition-all duration-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
     <!-- Mobile Menu Toggle -->
     <button
@@ -16,15 +16,14 @@
     </button>
 
     <!-- Brand Logo -->
-    <a href="/" class="text-center group">
-      <span
-        class="block font-serif text-2xl sm:text-3xl tracking-[0.25em] font-semibold text-brand-charcoal uppercase"
-        >AURORA</span
-      >
-      <span
-        class="block text-[9px] uppercase tracking-[0.3em] text-brand-gold font-medium -mt-1 group-hover:tracking-[0.4em] transition-all"
-        >Intimates</span
-      >
+    <a href="/" class="text-center group flex flex-col items-center leading-none">
+      <img
+        src="lane.png"
+        alt="LANË"
+        width="66"
+        height="60"
+        class="h-12 lg:h-14 w-auto rounded-2xl transition-transform duration-500 group-hover:scale-105"
+      />
     </a>
 
     <!-- Desktop Links -->
@@ -112,7 +111,7 @@
   <!-- Mobile Nav Menu -->
   @if (isMobileMenuOpen()) {
     <div
-      class="lg:hidden bg-[#FAF7F5] border-b border-brand-rose/40 px-6 py-6 space-y-4 text-sm font-medium uppercase tracking-widest"
+      class="lg:hidden bg-[#FAF6F0] border-b border-brand-rose/40 px-6 py-6 space-y-4 text-sm font-medium uppercase tracking-widest"
     >
       @for (link of navLinks; track link.href) {
         <a

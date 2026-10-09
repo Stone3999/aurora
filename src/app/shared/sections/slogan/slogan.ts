@@ -16,7 +16,7 @@ import { IconComponent } from '../../icon/icon';
           "La verdadera elegancia empieza por la prenda que sólo tú sabes que llevas puesta."
         </h3>
         <p class="text-xs uppercase tracking-[0.3em] text-brand-charcoal/70 font-medium">
-          — Manifiesto Aurora Intimates
+          — Manifiesto LANË
         </p>
       </div>
     </section>

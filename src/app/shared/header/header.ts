@@ -21,7 +21,7 @@ export class HeaderComponent {
   readonly navLinks = [
     { href: '#coleccion', label: 'Cacheteros' },
     { href: '#calidad', label: 'Filosofía' },
-    { href: '#beneficios', label: 'Por qué Aurora' },
+    { href: '#beneficios', label: 'Por qué LANË' },
     { href: '#opiniones', label: 'Reseñas' }
   ];
 

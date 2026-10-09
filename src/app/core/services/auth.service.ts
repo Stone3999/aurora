@@ -64,7 +64,7 @@ export class AuthService {
 
   readonly isLoggedIn = computed(() => this.user() !== null);
 
-constructor() {
+  constructor() {
     // 1) Arranque síncrono: leemos el espejo en localStorage.
     //    Esto NO espera IndexedDB, así que el primer render nunca se bloquea.
     const mirror = this.storage.getSync<StoredSession>(STORAGE_KEYS.session);
@@ -83,15 +83,7 @@ constructor() {
     this.supabase.authChanges$.subscribe((session) => {
       if (!session?.user) return;
 
-      const mapped: SessionUser = {
-        id: session.user.id,
-        email: session.user.email ?? '',
-        fullName:
-          (session.user.user_metadata?.['full_name'] as string) ||
-          session.user.email?.split('@')[0] ||
-          'Clienta',
-        source: 'supabase'
-      };
+      const mapped = this.mapSupabaseUser(session);
 
       this.applyUser(mapped);
       this.storage.set<StoredSession>(STORAGE_KEYS.session, {
@@ -105,6 +97,20 @@ constructor() {
   private applyUser(user: SessionUser | null) {
     this.user.set(user);
     this.userChanges.next(user);
+  }
+
+  private mapSupabaseUser(session: {
+    user: { id: string; email?: string; user_metadata?: Record<string, unknown> };
+  }): SessionUser {
+    return {
+      id: session.user.id,
+      email: session.user.email ?? '',
+      fullName:
+        (session.user.user_metadata?.['full_name'] as string) ||
+        session.user.email?.split('@')[0] ||
+        'Clienta',
+      source: 'supabase'
+    };
   }
 
   /**
@@ -127,20 +133,9 @@ constructor() {
       const session = await this.supabase.login.restore();
 
       if (session?.user) {
-        const mapped: SessionUser = {
-          id: session.user.id,
-          email: session.user.email ?? '',
-          fullName:
-            (session.user.user_metadata?.['full_name'] as string) ||
-            session.user.email?.split('@')[0] ||
-            'Clienta',
-          source: 'supabase'
-        };
+        const mapped = this.mapSupabaseUser(session);
         this.applyUser(mapped);
-        await this.storage.set<StoredSession>(STORAGE_KEYS.session, {
-          user: mapped,
-          session
-        });
+        await this.storage.set<StoredSession>(STORAGE_KEYS.session, { user: mapped, session });
       } else if (this.user()?.source === 'supabase') {
         await this.logout();
       }
@@ -158,20 +153,9 @@ constructor() {
       const session = this.supabase.currentSession();
       if (!session?.user) throw new Error('No se pudo iniciar sesión.');
 
-      const mapped: SessionUser = {
-        id: session.user.id,
-        email: session.user.email ?? normalized,
-        fullName:
-          (session.user.user_metadata?.['full_name'] as string) ||
-          normalized.split('@')[0],
-        source: 'supabase'
-      };
-
+      const mapped = this.mapSupabaseUser(session);
       this.applyUser(mapped);
-      await this.storage.set<StoredSession>(STORAGE_KEYS.session, {
-        user: mapped,
-        session
-      });
+      await this.storage.set<StoredSession>(STORAGE_KEYS.session, { user: mapped, session });
 
       return mapped;
     }
@@ -181,7 +165,7 @@ constructor() {
     const found = accounts.find((a) => a.email === normalized);
 
     if (!found) {
-      throw new Error('No encontramos una cuenta con ese correo. Crea tu cuenta Aurora.');
+      throw new Error('No encontramos una cuenta con ese correo. Crea tu cuenta LANË.');
     }
 
     if (found.passwordHash !== this.hash(password)) {
@@ -201,10 +185,11 @@ constructor() {
     return mapped;
   }
 
-  async register(fullName: string, email: string, password: string): Promise<{
-    user: SessionUser;
-    needsEmailConfirmation: boolean;
-  }> {
+  async register(
+    fullName: string,
+    email: string,
+    password: string
+  ): Promise<{ user: SessionUser; needsEmailConfirmation: boolean }> {
     const normalized = email.trim().toLowerCase();
 
     if (this.supabase.isConfigured()) {
@@ -217,13 +202,7 @@ constructor() {
         };
       }
 
-      const mapped: SessionUser = {
-        id: session.user.id,
-        email: session.user.email ?? normalized,
-        fullName: fullName.trim(),
-        source: 'supabase'
-      };
-
+      const mapped = this.mapSupabaseUser(session);
       this.applyUser(mapped);
       await this.storage.set<StoredSession>(STORAGE_KEYS.session, { user: mapped, session });
 
@@ -280,7 +259,7 @@ constructor() {
    */
   private hash(value: string): string {
     let hash = 0;
-    const salted = `aurora::${value}`;
+    const salted = `lane::${value}`;
     for (let i = 0; i < salted.length; i++) {
       hash = (hash << 5) - hash + salted.charCodeAt(i);
       hash |= 0;

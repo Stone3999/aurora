@@ -1,11 +1,11 @@
-/* Global styles & utilities matching Aurora Intimates design */
+/* Global styles & utilities matching LANË design */
 .backdrop-blur-custom {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #2D282A 0%, #6B5B5E 100%);
+  background: linear-gradient(135deg, #48382C 0%, #8A7565 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -15,9 +15,9 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FDF0ED;
+  background: #F5EDE3;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D8C3BC;
+  background: #D3C2AC;
   border-radius: 9999px;
 }

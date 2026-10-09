@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 /**
- * Configuración central del backend de Aurora Intimates.
+ * Configuración central del backend de LANË.
  * Lee las variables de entorno definidas en `.env` (local) o en el panel de Render.
  */
 

@@ -28,7 +28,7 @@ export class CartService {
   );
 
   constructor() {
-    // Cuando ya sabemos si hay sesión (viene de AsyncStorage, sin red), cargamos el carrito.
+    // Cuando ya sabemos si hay sesión (viene del espejo local, sin red), cargamos el carrito.
     this.auth.ready.then(() => this.hydrate());
     this.auth.user$.subscribe(() => this.hydrate());
 
@@ -59,7 +59,7 @@ export class CartService {
           dbItems.map((db: any) => ({
             id: db.id,
             product_id: db.product_id,
-            name: db.products?.name ?? 'Cachetero Aurora',
+            name: db.products?.name ?? 'Cachetero LANË',
             price: Number(db.products?.price ?? 24.9),
             color: { name: db.color_name, hex: db.color_hex },
             size: db.size,
@@ -78,12 +78,7 @@ export class CartService {
     await this.hydrate();
   }
 
-  async addToCart(
-    product: Product,
-    color?: ProductColor,
-    size = 'M',
-    quantity = 1
-  ) {
+  async addToCart(product: Product, color?: ProductColor, size = 'M', quantity = 1) {
     const user = this.auth.user();
     const chosenColor = color ?? product.colors[0];
 
@@ -107,7 +102,7 @@ export class CartService {
         );
         await this.hydrate();
       } catch (err) {
-        console.warn('[CartService]Supabase falló, se guarda en local', err);
+        console.warn('[CartService] Supabase falló, se guarda en local', err);
         this.addLocalItem(product, chosenColor, size, quantity);
       }
     }

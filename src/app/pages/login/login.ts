@@ -69,7 +69,7 @@ export class LoginComponent {
 
     if (this.isRegister()) {
       if (!this.fullName.trim()) {
-        this.errorMessage.set('Escribe tu nombre para tu cuenta Aurora.');
+        this.errorMessage.set('Escribe tu nombre para tu cuenta LANË.');
         return;
       }
       if (this.password.length < 6) {
@@ -98,7 +98,7 @@ export class LoginComponent {
           );
           this.mode.set('login');
         } else {
-          this.cart.showToast(`¡Bienvenida a Aurora, ${user.fullName.split(' ')[0]}!`);
+          this.cart.showToast(`¡Bienvenida a LANË, ${user.fullName.split(' ')[0]}!`);
           this.router.navigate(['/home']);
         }
       } else {

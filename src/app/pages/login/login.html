@@ -1,6 +1,6 @@
 <app-header />
 
-<main class="relative min-h-screen bg-gradient-to-br from-brand-blush via-[#FAF7F5] to-brand-lavender/40 px-4 py-12 sm:py-16 overflow-hidden">
+<main class="relative min-h-screen bg-gradient-to-br from-brand-blush via-[#FAF6F0] to-brand-lavender/40 px-4 py-12 sm:py-16 overflow-hidden">
   <!-- Ambient blobs -->
   <div
     class="absolute top-16 left-8 w-72 h-72 bg-brand-rose/30 rounded-full blur-3xl pointer-events-none"
@@ -12,17 +12,13 @@
   <div class="relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
     <!-- Brand Panel -->
     <div class="hidden lg:flex flex-col justify-center space-y-6 pr-6">
-      <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium">
-        Club de Privilegios Aurora
-      </span>
-      <h1 class="font-serif text-5xl xl:text-6xl leading-[1.1] text-gradient font-normal tracking-tight">
-        Tu colección favorita<br />
-        <span class="italic font-light text-brand-gold">espera por ti</span>
-      </h1>
-      <p class="text-base text-brand-charcoal/70 font-light leading-relaxed max-w-md">
-        Crea tu cuenta para guardar tu carrito, conservar tus tallas favoritas y recibir cada pedido
-        en un empaque totalmente discreto, sin logos exteriores.
-      </p>
+      <img
+        src="lane-512.png"
+        alt="LANË — Lo que llevas debajo también importa"
+        width="360"
+        height="360"
+        class="w-72 h-72 object-cover rounded-3xl shadow-2xl"
+      />
 
       <div class="space-y-3 pt-2">
         <div class="flex items-center gap-3">
@@ -50,6 +46,17 @@
     <div
       class="bg-white/90 backdrop-blur-custom rounded-3xl border border-brand-rose/30 shadow-2xl p-7 sm:p-10"
     >
+      <!-- Logo mobile -->
+      <div class="lg:hidden flex justify-center mb-8">
+        <img
+          src="lane-192.png"
+          alt="LANË"
+          width="96"
+          height="96"
+          class="w-24 h-24 object-cover rounded-2xl shadow-md"
+        />
+      </div>
+
       @if (isRegister()) {
         <span class="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-medium">
           Bienvenida
@@ -66,7 +73,7 @@
           Inicia sesión
         </h2>
         <p class="text-xs text-brand-charcoal/70 font-light mb-7">
-          Accede a tu carrito y a tus pedidos Aurora.
+          Accede a tu carrito y a tus pedidos LANË.
         </p>
       }
 
@@ -114,7 +121,7 @@
                 required
                 [(ngModel)]="fullName"
                 placeholder="Valeria Martinez"
-                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
               />
             </div>
           </div>
@@ -122,7 +129,7 @@
 
         <div class="space-y-1.5">
           <label for="email" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
-            Correo electronico
+            Correo electrónico
           </label>
           <div class="relative">
             <app-icon
@@ -136,14 +143,14 @@
               required
               [(ngModel)]="email"
               placeholder="tu@correo.com"
-              class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+              class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
             />
           </div>
         </div>
 
         <div class="space-y-1.5">
           <label for="password" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
-            Contrasena
+            Contraseña
           </label>
           <div class="relative">
             <app-icon
@@ -156,20 +163,20 @@
               name="password"
               required
               [(ngModel)]="password"
-              placeholder="********"
-              class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+              placeholder="••••••••"
+              class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
             />
             <button
               type="button"
               (click)="showPassword.set(!showPassword())"
               class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-charcoal/40 hover:text-brand-gold"
-              aria-label="Mostrar contrasena"
+              aria-label="Mostrar contraseña"
             >
               <app-icon name="eye" class="w-4 h-4" />
             </button>
           </div>
           @if (isRegister()) {
-            <p class="text-[10px] text-brand-charcoal/50 font-light">Minimo 6 caracteres.</p>
+            <p class="text-[10px] text-brand-charcoal/50 font-light">Mínimo 6 caracteres.</p>
           }
         </div>
 
@@ -179,7 +186,7 @@
               for="confirmPassword"
               class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
             >
-              Confirmar contrasena
+              Confirmar contraseña
             </label>
             <div class="relative">
               <app-icon
@@ -192,8 +199,8 @@
                 name="confirmPassword"
                 required
                 [(ngModel)]="confirmPassword"
-                placeholder="********"
-                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF7F5] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                placeholder="••••••••"
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
               />
             </div>
           </div>
@@ -226,7 +233,7 @@
             <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
             <span>{{ isRegister() ? 'Creando cuenta...' : 'Entrando...' }}</span>
           } @else {
-            <span>{{ isRegister() ? 'Crear mi cuenta' : 'Iniciar sesion' }}</span>
+            <span>{{ isRegister() ? 'Crear mi cuenta' : 'Iniciar sesión' }}</span>
             <app-icon name="arrow-right" class="w-4 h-4" />
           }
         </button>
@@ -247,7 +254,7 @@
       </button>
 
       <p class="text-[11px] text-brand-charcoal/50 font-light text-center mt-6 leading-relaxed">
-        Al continuar aceptas que Aurora Intimates trate tus datos con total discrecion.
+        Al continuar aceptas que LANË trate tus datos con total discreción.
       </p>
     </div>
   </div>

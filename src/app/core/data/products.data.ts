@@ -12,9 +12,9 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'encaje',
     price: 24.9,
     colors: [
-      { name: 'Lila Pastel', hex: '#EAE6F2', bgClass: 'bg-[#EAE6F2]' },
-      { name: 'Rosa Blush', hex: '#FDF0ED', bgClass: 'bg-[#FDF0ED]' },
-      { name: 'Verde Menta', hex: '#E3E8E1', bgClass: 'bg-[#E3E8E1]' }
+      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' },
+      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
+      { name: 'Verde Menta', hex: '#E4E6D8', bgClass: 'bg-[#E4E6D8]' }
     ],
     tag: 'Más Vendido',
     description:
@@ -26,8 +26,8 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'invisibles',
     price: 22.0,
     colors: [
-      { name: 'Nude Marfil', hex: '#EFE3D5', bgClass: 'bg-[#EFE3D5]' },
-      { name: 'Rosa Blush', hex: '#FDF0ED', bgClass: 'bg-[#FDF0ED]' }
+      { name: 'Nude Marfil', hex: '#E6D7C4', bgClass: 'bg-[#E6D7C4]' },
+      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' }
     ],
     tag: 'Corte Láser',
     description:
@@ -39,9 +39,9 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'seda',
     price: 28.5,
     colors: [
-      { name: 'Rosa Blush', hex: '#FDF0ED', bgClass: 'bg-[#FDF0ED]' },
-      { name: 'Lila Pastel', hex: '#EAE6F2', bgClass: 'bg-[#EAE6F2]' },
-      { name: 'Marfil Elegante', hex: '#FAF7F5', bgClass: 'bg-[#FAF7F5]' }
+      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
+      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' },
+      { name: 'Marfil Elegante', hex: '#F6F1E9', bgClass: 'bg-[#F6F1E9]' }
     ],
     tag: 'Lujo Intimo',
     description: 'Detalles en satén brillante y finos bordados dorados. Estilo sofisticado y romántico.'
@@ -52,8 +52,8 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'seda',
     price: 19.9,
     colors: [
-      { name: 'Verde Menta', hex: '#E3E8E1', bgClass: 'bg-[#E3E8E1]' },
-      { name: 'Lila Pastel', hex: '#EAE6F2', bgClass: 'bg-[#EAE6F2]' }
+      { name: 'Verde Menta', hex: '#E4E6D8', bgClass: 'bg-[#E4E6D8]' },
+      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' }
     ],
     tag: 'Uso Diario',
     description: 'Algodón pima ultra suave transpirable con blonda delicada en contorno de cadera.'
@@ -64,8 +64,8 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'encaje',
     price: 26.0,
     colors: [
-      { name: 'Rosa Blush', hex: '#FDF0ED', bgClass: 'bg-[#FDF0ED]' },
-      { name: 'Nude Marfil', hex: '#EFE3D5', bgClass: 'bg-[#EFE3D5]' }
+      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
+      { name: 'Nude Marfil', hex: '#E6D7C4', bgClass: 'bg-[#E6D7C4]' }
     ],
     tag: 'Nuevo',
     description:
@@ -77,7 +77,7 @@ export const FALLBACK_PRODUCTS: Product[] = [
     category: 'encaje',
     price: 59.9,
     colors: [
-      { name: 'Mix Pasteles', hex: '#EAE6F2', bgClass: 'bg-gradient-to-r from-[#FDF0ED] to-[#E3E8E1]' }
+      { name: 'Mix Pasteles', hex: '#E4DCE4', bgClass: 'bg-gradient-to-r from-[#F2E4DC] to-[#E4E6D8]' }
     ],
     tag: 'Edición Especial',
     description:

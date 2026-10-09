@@ -1,5 +1,5 @@
 -- =============================================================================
--- AURORA INTIMATES — ESQUEMA COMPLETO DE BASE DE DATOS PARA SUPABASE
+-- LANË — ESQUEMA COMPLETO DE BASE DE DATOS PARA SUPABASE
 -- =============================================================================
 -- Instrucciones:
 -- 1. Entra a tu dashboard de Supabase (https://supabase.com/dashboard).
@@ -190,7 +190,7 @@ create policy "Anyone can subscribe to newsletter"
   with check (true);
 
 -- =============================================================================
--- SEED DATA: INSERTAR PRODUCTOS INICIALES DE AURORA INTIMATES
+-- SEED DATA: INSERTAR PRODUCTOS INICIALES DE LANË
 -- =============================================================================
 insert into public.products (id, name, slug, category, price, tag, description, colors)
 values
@@ -203,9 +203,9 @@ values
   'Más Vendido',
   'Encaje francés floral de alta elasticidad con puente de algodón puro. Moldeado sin marcas.',
   '[
-    {"name": "Lila Pastel", "hex": "#EAE6F2", "bgClass": "bg-[#EAE6F2]"},
-    {"name": "Rosa Blush", "hex": "#FDF0ED", "bgClass": "bg-[#FDF0ED]"},
-    {"name": "Verde Menta", "hex": "#E3E8E1", "bgClass": "bg-[#E3E8E1]"}
+    {"name": "Lila Pastel", "hex": "#E4DCE4", "bgClass": "bg-[#E4DCE4]"},
+    {"name": "Rosa Blush", "hex": "#F2E4DC", "bgClass": "bg-[#F2E4DC]"},
+    {"name": "Verde Menta", "hex": "#E4E6D8", "bgClass": "bg-[#E4E6D8]"}
   ]'::jsonb
 ),
 (
@@ -217,8 +217,8 @@ values
   'Corte Láser',
   'Acabado ultra plano perfecto para usar bajo vestidos ceñidos o pantalones de tela liviana.',
   '[
-    {"name": "Nude Marfil", "hex": "#EFE3D5", "bgClass": "bg-[#EFE3D5]"},
-    {"name": "Rosa Blush", "hex": "#FDF0ED", "bgClass": "bg-[#FDF0ED]"}
+    {"name": "Nude Marfil", "hex": "#E6D7C4", "bgClass": "bg-[#E6D7C4]"},
+    {"name": "Rosa Blush", "hex": "#F2E4DC", "bgClass": "bg-[#F2E4DC]"}
   ]'::jsonb
 ),
 (
@@ -230,9 +230,9 @@ values
   'Lujo Intimo',
   'Detalles en satén brillante y finos bordados dorados. Estilo sofisticado y romántico.',
   '[
-    {"name": "Rosa Blush", "hex": "#FDF0ED", "bgClass": "bg-[#FDF0ED]"},
-    {"name": "Lila Pastel", "hex": "#EAE6F2", "bgClass": "bg-[#EAE6F2]"},
-    {"name": "Marfil Elegante", "hex": "#FAF7F5", "bgClass": "bg-[#FAF7F5]"}
+    {"name": "Rosa Blush", "hex": "#F2E4DC", "bgClass": "bg-[#F2E4DC]"},
+    {"name": "Lila Pastel", "hex": "#E4DCE4", "bgClass": "bg-[#E4DCE4]"},
+    {"name": "Marfil Elegante", "hex": "#F6F1E9", "bgClass": "bg-[#F6F1E9]"}
   ]'::jsonb
 ),
 (
@@ -244,8 +244,8 @@ values
   'Uso Diario',
   'Algodón pima ultra suave transpirable con blonda delicada en contorno de cadera.',
   '[
-    {"name": "Verde Menta", "hex": "#E3E8E1", "bgClass": "bg-[#E3E8E1]"},
-    {"name": "Lila Pastel", "hex": "#EAE6F2", "bgClass": "bg-[#EAE6F2]"}
+    {"name": "Verde Menta", "hex": "#E4E6D8", "bgClass": "bg-[#E4E6D8]"},
+    {"name": "Lila Pastel", "hex": "#E4DCE4", "bgClass": "bg-[#E4DCE4]"}
   ]'::jsonb
 ),
 (
@@ -257,8 +257,8 @@ values
   'Nuevo',
   'Diseño de pretina ancha que no marca ni saca rollitos. Cintura confortable de cobertura perfecta.',
   '[
-    {"name": "Rosa Blush", "hex": "#FDF0ED", "bgClass": "bg-[#FDF0ED]"},
-    {"name": "Nude Marfil", "hex": "#EFE3D5", "bgClass": "bg-[#EFE3D5]"}
+    {"name": "Rosa Blush", "hex": "#F2E4DC", "bgClass": "bg-[#F2E4DC]"},
+    {"name": "Nude Marfil", "hex": "#E6D7C4", "bgClass": "bg-[#E6D7C4]"}
   ]'::jsonb
 ),
 (
@@ -270,7 +270,7 @@ values
   'Edición Especial',
   'Caja de regalo incluye 3 cacheteros (Rosa, Lila y Menta) en empaque perfumado especial.',
   '[
-    {"name": "Mix Pasteles", "hex": "#EAE6F2", "bgClass": "bg-gradient-to-r from-[#FDF0ED] via-[#EAE6F2] to-[#E3E8E1]"}
+    {"name": "Mix Pasteles", "hex": "#E4DCE4", "bgClass": "bg-gradient-to-r from-[#F2E4DC] via-[#E4DCE4] to-[#E4E6D8]"}
   ]'::jsonb
 )
 on conflict (id) do update set

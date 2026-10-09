@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import storage from 'asyncstorage';
 
 /** Prefijo de namespace para no pisar otras llaves del navegador. */
-const PREFIX = 'aurora:';
+const PREFIX = 'lane:';
 
 export const STORAGE_KEYS = {
   session: `${PREFIX}session`,

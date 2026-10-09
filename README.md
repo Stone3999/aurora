@@ -1,4 +1,4 @@
-# Aurora Intimates
+# LANË
 
 > "Lo que llevas debajo también importa"
 
@@ -10,7 +10,7 @@ Tienda de lencería fina construida con **Angular 20**, **Supabase** (auth + bas
 ## 📁 Estructura
 
 ```
-aurora-intimates/
+lane/
 ├── src/
 │   ├── index.html                  <- Tailwind CDN + fuentes + iconos (config idéntica al diseño)
 │   ├── styles.css                  <- clases globales (backdrop-blur, text-gradient, scrollbar)
@@ -56,9 +56,9 @@ Cada llave se guarda en dos lugares:
 
 | Llave | Contenido |
 |-------|-----------|
-| `aurora:session` | Sesión activa (usuario + token de Supabase si aplica) |
-| `aurora:accounts` | Cuentas creadas en modo local |
-| `aurora:cart:<userId>` | Carrito del usuario |
+| `lane:session` | Sesión activa (usuario + token de Supabase si aplica) |
+| `lane:accounts` | Cuentas creadas en modo local |
+| `lane:cart:<userId>` | Carrito del usuario |
 
 - **AsyncStorage** (IndexedDB vía localForage) es el almacenamiento principal, asíncrono y durable.
 - **localStorage** guarda un espejo **síncrono** de cada llave.
@@ -141,7 +141,7 @@ CORS_ORIGINS=https://tu-frontend.vercel.app
 NODE_ENV=production
 ```
 
-5. **Deploy**. Render te dará un link tipo `https://aurora-intimates-backend.onrender.com`.
+5. **Deploy**. Render te dará un link tipo `https://lane-backend.onrender.com`.
 6. Pega ese link (con `/api` al final) en `apiUrl` de `src/environments/environment.ts`.
 
 > También puedes usar **Blueprints**:Render lee solo `backend/render.yaml` si lo subes al repo.
@@ -175,7 +175,7 @@ npm run dev
 1. Sube el repo (incluye la carpeta `backend/`) a GitHub.
 2. En [vercel.com](https://vercel.com) → **Add New → Project** → importa el repo.
 3. Vercel detecta Angular gracias a `vercel.json`
-   (`buildCommand: npm run build`, `outputDirectory: dist/aurora-intimates/browser`).
+   (`buildCommand: npm run build`, `outputDirectory: dist/lane/browser`).
 4. Antes de desplegar, confirma que `src/environments/environment.ts` tenga tus valores reales
    de Supabase y de Render.
 5. **Deploy**.

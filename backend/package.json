@@ -1,7 +1,7 @@
 {
-  "name": "aurora-intimates-backend",
+  "name": "lane-backend",
   "version": "1.0.0",
-  "description": "API REST de Aurora Intimates (Render)",
+  "description": "API REST de LANË (Render)",
   "main": "src/server.js",
   "type": "commonjs",
   "engines": {
@@ -12,7 +12,7 @@
     "dev": "node --watch src/server.js"
   },
   "keywords": [
-    "aurora",
+    "lane",
     "intimates",
     "express",
     "supabase"

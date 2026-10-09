@@ -5,6 +5,6 @@ export const environment = {
   // Clave pública (Anon Key) de Supabase
   supabaseKey: 'TU_SUPABASE_ANON_KEY',
   // URL pública que te generará Render para tu backend
-  // Ej: https://aurora-backend.onrender.com/api
+  // Ej: https://lane-backend.onrender.com/api
   apiUrl: 'https://tu-backend-en-render.onrender.com/api'
 };

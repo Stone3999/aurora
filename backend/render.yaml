@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: aurora-intimates-backend
+    name: lane-backend
     runtime: node
     plan: free
     region: oregon
