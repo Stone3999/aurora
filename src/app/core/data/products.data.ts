@@ -1,98 +1,160 @@
 import { Product } from '../models/product.model';
 
 /**
- * Catálogo semilla idéntico al diseño original.
- * Se usa como respaldo cuando Supabase aún no está configurado o sin conexión,
- * de modo que la tienda nunca se vea vacía.
+ * Catálogo semilla de LANË.
+ *
+ * - `tier: 'basico'`  -> visible para todas las visitas (incluso sin sesión).
+ * - `tier: 'premium'` -> solo visible con sesión iniciada.
+ *
+ * Las fotos viven en `public/products/`. Angular las copia tal cual a
+ * `dist/lane/browser/products/`, así que Vercel las sirve como estáticos.
+ * Para cambiar una foto basta con reemplazar el archivo y mantener el nombre.
  */
 export const FALLBACK_PRODUCTS: Product[] = [
+  // ---------------------------------------------------------------- Línea Alpaca
   {
     id: 1,
-    name: 'Cachetero Floral Lace',
-    category: 'encaje',
-    price: 24.9,
-    colors: [
-      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' },
-      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
-      { name: 'Verde Menta', hex: '#E4E6D8', bgClass: 'bg-[#E4E6D8]' }
-    ],
+    name: 'Cachetero Alpaca Verde Oscuro',
+    slug: 'alpaca-verde-oscuro',
+    category: 'alpaca',
+    tier: 'basico',
+    price: 14.9,
     tag: 'Más Vendido',
     description:
-      'Encaje francés floral de alta elasticidad con puente de algodón puro. Moldeado sin marcas.'
+      'Punto de alpaca ultra suave y transpirable. Pretina ancha que abraza sin marcar, ideal para el día a día.',
+    image: 'products/alpaca-verde-oscuro.jpg',
+    colors: [{ name: 'Verde Oscuro', hex: '#43573F', bgClass: 'bg-[#43573F]' }]
   },
   {
     id: 2,
-    name: 'Cachetero Invisible Silk Touch',
-    category: 'invisibles',
-    price: 22.0,
-    colors: [
-      { name: 'Nude Marfil', hex: '#E6D7C4', bgClass: 'bg-[#E6D7C4]' },
-      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' }
-    ],
-    tag: 'Corte Láser',
+    name: 'Cachetero Alpaca Rosa Empolvado',
+    slug: 'alpaca-rosa-empolvado',
+    category: 'alpaca',
+    tier: 'basico',
+    price: 14.9,
+    tag: 'Nuevo',
     description:
-      'Acabado ultra plano perfecto para usar bajo vestidos ceñidos o pantalones de tela liviana.'
+      'El rosa empolvado que combina con todo. Tejido elástico que se adapta al cuerpo sin apretar.',
+    image: 'products/alpaca-rosa-empolvado.jpg',
+    colors: [{ name: 'Rosa Empolvado', hex: '#B2747F', bgClass: 'bg-[#B2747F]' }]
   },
   {
     id: 3,
-    name: 'Cachetero Satin & Encaje Gold',
-    category: 'seda',
-    price: 28.5,
-    colors: [
-      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
-      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' },
-      { name: 'Marfil Elegante', hex: '#F6F1E9', bgClass: 'bg-[#F6F1E9]' }
-    ],
-    tag: 'Lujo Intimo',
-    description: 'Detalles en satén brillante y finos bordados dorados. Estilo sofisticado y romántico.'
+    name: 'Cachetero Alpaca Azul Polvoriento',
+    slug: 'alpaca-azul-polvoriento',
+    category: 'alpaca',
+    tier: 'basico',
+    price: 14.9,
+    tag: 'Favorito',
+    description:
+      'Serenidad en azul polvoriento. Fibra natural que mantiene la frescura y la suavidad todo el día.',
+    image: 'products/alpaca-azul-polvoriento.jpg',
+    colors: [{ name: 'Azul Polvoriento', hex: '#758DA4', bgClass: 'bg-[#758DA4]' }]
   },
   {
     id: 4,
-    name: 'Cachetero Soft Cotton Daily',
-    category: 'seda',
-    price: 19.9,
-    colors: [
-      { name: 'Verde Menta', hex: '#E4E6D8', bgClass: 'bg-[#E4E6D8]' },
-      { name: 'Lila Pastel', hex: '#E4DCE4', bgClass: 'bg-[#E4DCE4]' }
-    ],
-    tag: 'Uso Diario',
-    description: 'Algodón pima ultra suave transpirable con blonda delicada en contorno de cadera.'
+    name: 'Cachetero Alpaca Mostaza',
+    slug: 'alpaca-mostaza',
+    category: 'alpaca',
+    tier: 'basico',
+    price: 14.9,
+    tag: 'Edición Otoño',
+    description:
+      'Un cálido mostaza para romper la rutina. Corte cómodo, cobertura perfecta y acabado sin costuras.',
+    image: 'products/alpaca-mostaza.jpg',
+    colors: [{ name: 'Mostaza', hex: '#B8862F', bgClass: 'bg-[#B8862F]' }]
   },
   {
     id: 5,
-    name: 'Cachetero Royal Rose Encaje',
-    category: 'encaje',
-    price: 26.0,
-    colors: [
-      { name: 'Rosa Blush', hex: '#F2E4DC', bgClass: 'bg-[#F2E4DC]' },
-      { name: 'Nude Marfil', hex: '#E6D7C4', bgClass: 'bg-[#E6D7C4]' }
-    ],
-    tag: 'Nuevo',
+    name: 'Cachetero Alpaca Morado Oscuro',
+    slug: 'alpaca-morado-oscuro',
+    category: 'alpaca',
+    tier: 'basico',
+    price: 14.9,
+    tag: 'Últimas Piezas',
     description:
-      'Diseño de pretina ancha que no marca ni saca rollitos. Cintura confortable de cobertura perfecta.'
+      'Profundo y elegante. Alpaca fina que cuida la piel sensible y se siente como una segunda piel.',
+    image: 'products/alpaca-morado-oscuro.jpg',
+    colors: [{ name: 'Morado Oscuro', hex: '#4C3144', bgClass: 'bg-[#4C3144]' }]
   },
+
+  // ------------------------------------------------------- Maison du Soie (premium)
   {
     id: 6,
-    name: 'Set x3 Cacheteros Pastel Box',
-    category: 'encaje',
-    price: 59.9,
-    colors: [
-      { name: 'Mix Pasteles', hex: '#E4DCE4', bgClass: 'bg-gradient-to-r from-[#F2E4DC] to-[#E4E6D8]' }
-    ],
-    tag: 'Edición Especial',
+    name: 'Cachetero Maison du Soie Negro',
+    slug: 'maison-negro',
+    category: 'premium',
+    tier: 'premium',
+    price: 49.9,
+    tag: 'Icono LANË',
     description:
-      'Caja de regalo incluye 3 cacheteros (Rosa, Lila y Menta) en empaque perfumado especial.'
+      'Encaje francés cosido a mano y satén de seda con dije dorado. Presentado en caja de regalo Maison du Soie.',
+    image: 'products/maison-negro.jpg',
+    colors: [{ name: 'Negro', hex: '#1E1B20', bgClass: 'bg-[#1E1B20]' }]
+  },
+  {
+    id: 7,
+    name: 'Cachetero Maison du Soie Vino',
+    slug: 'maison-vino',
+    category: 'premium',
+    tier: 'premium',
+    price: 49.9,
+    tag: 'Edición Limitada',
+    description:
+      'Un vino intenso en seda y encaje floral. El detalle de lujo que convierte lo cotidiano en una ocasión especial.',
+    image: 'products/maison-vino.jpg',
+    colors: [{ name: 'Vino', hex: '#7A2233', bgClass: 'bg-[#7A2233]' }]
+  },
+  {
+    id: 8,
+    name: 'Cachetero Maison du Soie Marfil',
+    slug: 'maison-marfil',
+    category: 'premium',
+    tier: 'premium',
+    price: 49.9,
+    tag: 'Lujo Íntimo',
+    description:
+      'Marfil luminoso con blonda de encaje y dije dorado. Delicadeza y confort en una pieza de colección.',
+    image: 'products/maison-marfil.jpg',
+    colors: [{ name: 'Marfil', hex: '#E9E0D2', bgClass: 'bg-[#E9E0D2]' }]
+  },
+  {
+    id: 9,
+    name: 'Cachetero Maison du Soie Nude',
+    slug: 'maison-nude',
+    category: 'premium',
+    tier: 'premium',
+    price: 49.9,
+    tag: 'Best Seller',
+    description:
+      'El nude que se funde con la piel. Seda suave, encaje ligero y un ajuste que no marca bajo la ropa.',
+    image: 'products/maison-nude.jpg',
+    colors: [{ name: 'Nude', hex: '#C4A791', bgClass: 'bg-[#C4A791]' }]
+  },
+  {
+    id: 10,
+    name: 'Cachetero Maison du Soie Pizarra',
+    slug: 'maison-pizarra',
+    category: 'premium',
+    tier: 'premium',
+    price: 49.9,
+    tag: 'Nuevo',
+    description:
+      'Azul pizarra con encaje escultural. Una edición sofisticada para quienes coleccionan detalles únicos.',
+    image: 'products/maison-pizarra.jpg',
+    colors: [{ name: 'Pizarra', hex: '#5E6470', bgClass: 'bg-[#5E6470]' }]
   }
 ];
 
 export interface CategoryFilter {
   key: string;
   label: string;
+  /** Solo se muestra si la visitante tiene sesión iniciada. */
+  requiresSession?: boolean;
 }
 
 export const CATEGORY_FILTERS: CategoryFilter[] = [
   { key: 'todos', label: 'Todos' },
-  { key: 'encaje', label: 'Encaje Premium' },
-  { key: 'seda', label: 'Seda & Algodón' },
-  { key: 'invisibles', label: 'Corte Laser / Invisible' }
+  { key: 'alpaca', label: 'Línea Alpaca' },
+  { key: 'premium', label: 'Encaje Premium', requiresSession: true }
 ];

@@ -20,7 +20,7 @@ export class HeaderComponent {
 
   readonly navLinks = [
     { href: '#coleccion', label: 'Cacheteros' },
-    { href: '#calidad', label: 'Filosofía' },
+    { href: '#lane', label: 'Conoce a LANË' },
     { href: '#beneficios', label: 'Por qué LANË' },
     { href: '#opiniones', label: 'Reseñas' }
   ];

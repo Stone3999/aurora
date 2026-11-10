@@ -1,5 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { isStrongPassword, passwordErrorMessage } from '../validators/password';
 import { STORAGE_KEYS, StorageService } from './storage.service';
 import { SupabaseService } from './supabase.service';
 
@@ -22,13 +23,35 @@ interface LocalAccount {
   fullName: string;
   passwordHash: string;
   createdAt: string;
+  /** Las cuentas nuevas nacen sin verificar. Las antiguas (sin campo) se dan por válidas. */
+  verified?: boolean;
+  verificationCode?: string;
+  verificationExpiresAt?: string;
+}
+
+export interface RegisterResult {
+  user: SessionUser | null;
+  needsEmailConfirmation: boolean;
+  /**
+   * Solo en modo local/demo (sin Supabase): código de 6 dígitos que se muestra
+   * en pantalla porque no hay servidor de correo. Con Supabase el correo es real.
+   */
+  demoCode?: string;
+}
+
+const CODE_TTL_MS = 15 * 60 * 1000;
+
+function authError(message: string, code: string): Error {
+  const error = new Error(message);
+  (error as Error & { code?: string }).code = code;
+  return error;
 }
 
 /**
  * Ortogonal a Supabase:
- *  - Si Supabase está configurado -> manda Supabase (auth real + DB real).
- *  - Si NO está configurado -> sesión local guardada en AsyncStorage,
- *    para que la app (y la lógica landing -> home) funcione desde el minuto uno.
+ *  - Si Supabase está configurado -> manda Supabase (auth real + email real + DB real).
+ *  - Si NO está configurado -> sesión local guardada en AsyncStorage, con
+ *    verificación de correo simulada (código de 6 dígitos en pantalla).
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -148,7 +171,15 @@ export class AuthService {
     const normalized = email.trim().toLowerCase();
 
     if (this.supabase.isConfigured()) {
-      await this.supabase.login.initialize(normalized, password);
+      try {
+        await this.supabase.login.initialize(normalized, password);
+      } catch (err) {
+        const message = (err as Error)?.message ?? '';
+        if (message.toLowerCase().includes('email not confirmed')) {
+          throw authError('EMAIL_NOT_VERIFIED', 'EMAIL_NOT_VERIFIED');
+        }
+        throw err;
+      }
 
       const session = this.supabase.currentSession();
       if (!session?.user) throw new Error('No se pudo iniciar sesión.');
@@ -172,6 +203,11 @@ export class AuthService {
       throw new Error('Correo o contraseña incorrectos. Revisa tus datos.');
     }
 
+    // Cuentas nuevas: deben confirmar el código antes de entrar.
+    if (found.verified === false) {
+      throw authError('EMAIL_NOT_VERIFIED', 'EMAIL_NOT_VERIFIED');
+    }
+
     const mapped: SessionUser = {
       id: `local-${found.email}`,
       email: found.email,
@@ -185,19 +221,24 @@ export class AuthService {
     return mapped;
   }
 
-  async register(
-    fullName: string,
-    email: string,
-    password: string
-  ): Promise<{ user: SessionUser; needsEmailConfirmation: boolean }> {
+  async register(fullName: string, email: string, password: string): Promise<RegisterResult> {
     const normalized = email.trim().toLowerCase();
 
+    if (!isStrongPassword(password)) {
+      throw authError(passwordErrorMessage(), 'WEAK_PASSWORD');
+    }
+
     if (this.supabase.isConfigured()) {
-      const { session } = await this.supabase.login.register(normalized, password, fullName.trim());
+      const { session } = await this.supabase.login.register(
+        normalized,
+        password,
+        fullName.trim()
+      );
 
       if (!session?.user) {
+        // Supabase exige confirmar el correo antes de crear la sesión.
         return {
-          user: { id: '', email: normalized, fullName, source: 'supabase' },
+          user: null,
           needsEmailConfirmation: true
         };
       }
@@ -216,14 +257,70 @@ export class AuthService {
       throw new Error('Ya existe una cuenta con ese correo. Inicia sesión.');
     }
 
+    const code = this.generateCode();
+
     const account: LocalAccount = {
       email: normalized,
       fullName: fullName.trim(),
       passwordHash: this.hash(password),
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      verified: false,
+      verificationCode: code,
+      verificationExpiresAt: new Date(Date.now() + CODE_TTL_MS).toISOString()
     };
 
     accounts.push(account);
+    await this.storage.set(STORAGE_KEYS.accounts, accounts);
+
+    // Importante: NO se inicia sesión hasta verificar el correo.
+    return {
+      user: null,
+      needsEmailConfirmation: true,
+      demoCode: code
+    };
+  }
+
+  /**
+   * Verifica el correo.
+   * - Modo local: valida el código de 6 dígitos y abre la sesión.
+   * - Supabase: la verificación ocurre al abrir el enlace del correo, no aquí.
+   */
+  async verifyEmail(email: string, code: string): Promise<SessionUser> {
+    const normalized = email.trim().toLowerCase();
+
+    if (this.supabase.isConfigured()) {
+      throw new Error(
+        'Abre el enlace que enviamos a tu correo para confirmar la cuenta. Luego inicia sesión.'
+      );
+    }
+
+    const accounts = (await this.storage.get<LocalAccount[]>(STORAGE_KEYS.accounts)) ?? [];
+    const index = accounts.findIndex((a) => a.email === normalized);
+    if (index === -1) throw new Error('No encontramos esa cuenta. Regístrate de nuevo.');
+
+    const account = accounts[index];
+
+    if (account.verified !== false) {
+      throw authError('Ese correo ya está verificado. Inicia sesión.', 'ALREADY_VERIFIED');
+    }
+
+    if (
+      !account.verificationExpiresAt ||
+      new Date(account.verificationExpiresAt).getTime() < Date.now()
+    ) {
+      throw authError('El código expiró. Solicita uno nuevo.', 'CODE_EXPIRED');
+    }
+
+    if (account.verificationCode !== code.trim()) {
+      throw authError('El código no es correcto. Revísalo e intenta de nuevo.', 'INVALID_CODE');
+    }
+
+    accounts[index] = {
+      ...account,
+      verified: true,
+      verificationCode: undefined,
+      verificationExpiresAt: undefined
+    };
     await this.storage.set(STORAGE_KEYS.accounts, accounts);
 
     const mapped: SessionUser = {
@@ -236,7 +333,35 @@ export class AuthService {
     this.applyUser(mapped);
     await this.storage.set<StoredSession>(STORAGE_KEYS.session, { user: mapped, session: null });
 
-    return { user: mapped, needsEmailConfirmation: false };
+    return mapped;
+  }
+
+  /** Reenvía el correo (Supabase) o genera un código nuevo (demo local). */
+  async resendVerification(email: string): Promise<{ demoCode?: string }> {
+    const normalized = email.trim().toLowerCase();
+
+    if (this.supabase.isConfigured()) {
+      await this.supabase.login.resendConfirmation(normalized);
+      return {};
+    }
+
+    const accounts = (await this.storage.get<LocalAccount[]>(STORAGE_KEYS.accounts)) ?? [];
+    const index = accounts.findIndex((a) => a.email === normalized);
+    if (index === -1) throw new Error('No encontramos esa cuenta. Regístrate de nuevo.');
+
+    if (accounts[index].verified !== false) {
+      throw authError('Ese correo ya está verificado. Inicia sesión.', 'ALREADY_VERIFIED');
+    }
+
+    const code = this.generateCode();
+    accounts[index] = {
+      ...accounts[index],
+      verificationCode: code,
+      verificationExpiresAt: new Date(Date.now() + CODE_TTL_MS).toISOString()
+    };
+    await this.storage.set(STORAGE_KEYS.accounts, accounts);
+
+    return { demoCode: code };
   }
 
   async logout(): Promise<void> {
@@ -250,6 +375,10 @@ export class AuthService {
 
     this.applyUser(null);
     await this.storage.remove(STORAGE_KEYS.session);
+  }
+
+  private generateCode(): string {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   }
 
   /**

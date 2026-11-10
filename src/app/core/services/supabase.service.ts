@@ -75,6 +75,12 @@ export class SupabaseService {
     return this.supabase;
   }
 
+  /** URL a la que Supabase devuelve el enlace de confirmación de correo. */
+  private authRedirectUrl(): string {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}/login`;
+  }
+
   /** Capa de autenticación contra Supabase (solo se usa si isConfigured()). */
   readonly login = {
     /** Rehidrata la sesión guardada por Supabase. */
@@ -99,7 +105,11 @@ export class SupabaseService {
       const { data, error } = await this.supabase.auth.signUp({
         email,
         password,
-        options: { data: { full_name: fullName } }
+        options: {
+          data: { full_name: fullName },
+          // El enlace del correo de confirmación vuelve a /login.
+          emailRedirectTo: this.authRedirectUrl()
+        }
       });
 
       if (error) throw error;
@@ -107,6 +117,17 @@ export class SupabaseService {
       this.currentSession.set(data.session);
       this.currentUser.set(data.user);
       return data;
+    },
+
+    /** Reenvía el correo de confirmación (Supabase). */
+    resendConfirmation: async (email: string) => {
+      const { error } = await this.supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: { emailRedirectTo: this.authRedirectUrl() }
+      });
+
+      if (error) throw error;
     },
 
     initialize: async (email: string, password: string) => {
@@ -129,6 +150,10 @@ export class SupabaseService {
 
   // ------------------------------------------------------------ Database
   async getProducts() {
+    // Sin credenciales reales no consultamos: evita errores de red en consola
+    // y deja que ProductsService use el catálogo local.
+    if (!this.isConfigured()) return [];
+
     const { data, error } = await this.supabase
       .from('products')
       .select('*')

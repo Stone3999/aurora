@@ -41,3 +41,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Documentos fuente de producto (las fotos optimizadas ya viven en public/products/)
+lane barato.docx
+lane premium.docx
+lane barato.txt
+lane premium.txt

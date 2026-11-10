@@ -8,7 +8,7 @@
     >
       <p class="text-xs text-brand-charcoal/80 font-light">
         ¡Hola, <span class="font-semibold">{{ auth.displayName() }}</span>! Ya puedes agregar a tu
-        carrito y completar tu pedido ✨
+        carrito, completar tu pedido y ver la colección premium ✨
       </p>
       <p class="text-[10px] uppercase tracking-widest text-brand-charcoal/50">
         Sesión activa · {{ user.email }}
@@ -22,8 +22,8 @@
     >
       <p class="text-xs text-brand-charcoal/80 font-light flex items-center gap-2">
         <app-icon name="eye" class="w-4 h-4 text-brand-gold shrink-0" />
-        Estás navegando como invitada: puedes ver todo el catálogo, pero necesitas una cuenta para
-        agregar al carrito.
+        Estás navegando como invitada: puedes explorar la línea Alpaca, pero necesitas una cuenta
+        para ver la colección premium y agregar al carrito.
       </p>
       <button
         (click)="goToLogin()"
@@ -38,8 +38,8 @@
 
 <main>
   <app-hero />
-  <app-pillars />
   <app-catalog />
+  <app-about />
   <app-slogan />
   <app-testimonials />
   <app-newsletter />

@@ -34,4 +34,36 @@ async function requireAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAuth };
+/**
+ * Middleware: intenta validar el token, pero NO bloquea si falta o es inválido.
+ * Se usa en endpoints públicos que muestran más contenido a usuarias con sesión
+ * (por ejemplo, la colección premium).
+ */
+async function optionalAuth(req, res, next) {
+  const authHeader = req.headers.authorization || '';
+
+  if (!authHeader.startsWith('Bearer ')) {
+    req.user = null;
+    return next();
+  }
+
+  const token = authHeader.slice(7).trim();
+  const { getSupabase } = require('../supabase');
+  const supabase = getSupabase();
+
+  if (!supabase) {
+    req.user = null;
+    return next();
+  }
+
+  try {
+    const { data, error } = await supabase.auth.getUser(token);
+    req.user = error ? null : data?.user ?? null;
+  } catch {
+    req.user = null;
+  }
+
+  return next();
+}
+
+module.exports = { requireAuth, optionalAuth };

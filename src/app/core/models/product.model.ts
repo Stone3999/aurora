@@ -4,14 +4,20 @@ export interface ProductColor {
   bgClass?: string;
 }
 
+export type ProductTier = 'basico' | 'premium';
+
 export interface Product {
   id: number;
   name: string;
   slug?: string;
   category: string;
+  /** 'basico' = visible para todas; 'premium' = solo con sesión iniciada. */
+  tier: ProductTier;
   price: number;
   tag: string;
   description: string;
+  /** Ruta pública de la foto del producto (public/products/...). */
+  image: string;
   colors: ProductColor[];
 }
 

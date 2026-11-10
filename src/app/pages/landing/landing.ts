@@ -7,7 +7,7 @@ import { QuickViewComponent } from '../../shared/quick-view/quick-view';
 import { CatalogComponent } from '../../shared/sections/catalog/catalog';
 import { HeroComponent } from '../../shared/sections/hero/hero';
 import { NewsletterComponent } from '../../shared/sections/newsletter/newsletter';
-import { PillarsComponent } from '../../shared/sections/pillars/pillars';
+import { AboutComponent } from '../../shared/sections/about/about';
 import { SloganComponent } from '../../shared/sections/slogan/slogan';
 import { TestimonialsComponent } from '../../shared/sections/testimonials/testimonials';
 import { ToastComponent } from '../../shared/toast/toast';
@@ -17,7 +17,7 @@ import { ToastComponent } from '../../shared/toast/toast';
   imports: [
     HeaderComponent,
     HeroComponent,
-    PillarsComponent,
+    AboutComponent,
     CatalogComponent,
     SloganComponent,
     TestimonialsComponent,

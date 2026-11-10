@@ -17,23 +17,20 @@
       </button>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-        <div
-          class="aspect-square rounded-2xl flex items-center justify-center p-6"
-          [style.background-color]="color()?.hex + '50'"
-        >
-          <svg
-            viewBox="0 0 200 130"
-            class="w-full h-48 filter drop-shadow-lg"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20 30 C70 20, 130 20, 180 30 C185 55, 180 85, 165 100 C135 112, 110 98, 100 95 C90 98, 65 112, 35 100 C20 85, 15 55, 20 30 Z"
-              [attr.fill]="color()?.hex"
-              stroke="#FAF6F0"
-              stroke-width="2"
-            />
-          </svg>
+        <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-brand-cream shadow-md">
+          <img
+            [src]="p.image"
+            [alt]="p.name"
+            class="w-full h-full object-cover"
+          />
+          @if (p.tier === 'premium') {
+            <span
+              class="absolute top-3 left-3 bg-brand-charcoal/85 backdrop-blur px-3 py-1 rounded-full text-[10px] uppercase font-semibold tracking-wider text-brand-gold flex items-center gap-1"
+            >
+              <app-icon name="sparkles" class="w-3 h-3" />
+              Premium
+            </span>
+          }
         </div>
 
         <div class="space-y-4">

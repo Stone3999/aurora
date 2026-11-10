@@ -11,6 +11,10 @@ Tienda de lencería fina construida con **Angular 20**, **Supabase** (auth + bas
 
 ```
 lane/
+├── public/
+│   ├── products/                   <- ⭐ fotos de los 10 productos (se sirven en Vercel)
+│   ├── lane.png, lane-192.png...   <- logo
+│   └── favicon.ico
 ├── src/
 │   ├── index.html                  <- Tailwind CDN + fuentes + iconos (config idéntica al diseño)
 │   ├── styles.css                  <- clases globales (backdrop-blur, text-gradient, scrollbar)
@@ -20,6 +24,7 @@ lane/
 │   ├── app/
 │   │   ├── core/
 │   │   │   ├── data/products.data.ts        <- catálogo semilla (respaldo)
+│   │   │   ├── validators/password.ts       <- reglas de contraseña
 │   │   │   ├── guards/guest-only.guard.ts   <- landing/login solo sin sesión
 │   │   │   ├── models/product.model.ts
 │   │   │   └── services/
@@ -30,6 +35,7 @@ lane/
 │   │   │       ├── products.service.ts      <- catálogo, filtros, colores y talles
 │   │   │       └── api.service.ts           <- llamadas al backend en Render
 │   │   ├── shared/                        <- header, footer, carrito, modales, secciones
+│   │   │   └── sections/about/            <- "Conoce a LANË"
 │   │   ├── pages/
 │   │   │   ├── landing/                    <- 1) landing page
 │   │   │   ├── login/                      <- 2) login o registro
@@ -79,7 +85,48 @@ Cuando llenas `supabaseUrl` / `supabaseKey`, Supabase toma el relevo automática
 |------|--------|----------|
 | `/` (landing) | **Solo sin sesión** | Página de bienvenida. Si ya hay sesión iniciada, redirige sola a `/home`. |
 | `/login` | **Solo sin sesión** | Login y registro en la misma pantalla (pestañas). Botón "Explorar como invitado". |
-| `/home` | **Todos** | Catálogo completo. **Sin sesión** puede ver, filtrar y abrir el detalle, pero al agregar al carrito se abre el modal de autenticación. **Con sesión** puede agregar al carrito, cambiar cantidades, hacer checkout y cerrar sesión. |
+| `/home` | **Todos** | **Sin sesión** ve solo la línea Alpaca y puede filtrar/abrir el detalle; al agregar al carrito se abre el modal de autenticación. **Con sesión** ve también la colección premium Maison du Soie, y puede agregar al carrito, cambiar cantidades, hacer checkout y cerrar sesión. |
+
+### Registro con verificación de correo
+
+- **Contraseña**: mínimo 8 caracteres, al menos una minúscula, una mayúscula y un símbolo. Se muestra
+  un checklist en vivo mientras escribes.
+- **Con Supabase configurado**: `signUp` envía un correo real de confirmación. La cuenta no obtiene
+  sesión hasta que se abre el enlace (el redirect vuelve a `/login`). Hay botón para reenviar el correo.
+- **Modo local/demo (sin Supabase)**: no hay servidor de correo, así que se genera un código de
+  6 dígitos y se muestra en pantalla para poder probar el flujo completo. También vence en 15 minutos.
+
+> En Supabase, configura **Authentication → URL Configuration → Site URL** con tu dominio de Vercel y
+> agrega `https://tu-dominio.vercel.app/login` a **Redirect URLs**. Sin eso, el enlace de confirmación
+> no vuelve correctamente a la app.
+
+---
+
+## 🛍️ Catálogo y fotos (Vercel)
+
+Los productos viven en **tres lugares** que deben mantenerse sincronizados:
+
+| Lugar | Para qué |
+|-------|----------|
+| `src/app/core/data/products.data.ts` | Catálogo de respaldo que usa el frontend si Supabase no responde |
+| `supabase/schema.sql` | Seed real de la base de datos |
+| `backend/src/supabase.js` | Respaldo del backend en Render |
+
+Las fotos van en **`public/products/`**. Angular copia `public/` tal cual a
+`dist/lane/browser/`, así que Vercel las sirve como archivos estáticos en
+`https://tu-dominio.vercel.app/products/<archivo>.jpg`. No necesitas un bucket externo: el plan
+gratuito de Vercel sirve estos ~920 KB sin problema.
+
+Para cambiar una foto: reemplaza el archivo manteniendo el nombre, o sube uno nuevo y actualiza el
+campo `image` del producto (ej. `products/mi-foto.jpg`).
+
+### Línea básica vs. premium
+
+- `tier: 'basico'` → línea Alpaca (`$14.90`). Visible para todas las visitas.
+- `tier: 'premium'` → Maison du Soie (`$49.90`). Solo aparece con sesión iniciada.
+
+El filtro se aplica en **tres capas**: `ProductsService` (frontend), las políticas **RLS** de
+Supabase (`tier = 'basico'` para `anon`) y el backend (mismo criterio en `/api/products`).
 
 ---
 
@@ -110,9 +157,10 @@ export const environment = {
 Mientras no cambies los placeholders, la app funciona igual: usa el catálogo local y muestra un aviso
 al suscribirse al newsletter.
 
-> En **Supabase → Authentication → Providers → Email**, asegúrate de tener el login por correo
-> habilitado. Si lo dejas apagado, el registro no devuelve sesión y el usuario confirma su correo
-> desde el enlace que Supabase le manda.
+> En **Supabase → Authentication → Providers → Email** deja habilitado el proveedor y activa
+> **Confirm email**. Con esa opción activa, el registro no devuelve sesión hasta que la persona
+> abre el enlace del correo, que es justo la verificación que pide el registro. Si la desactivas,
+> Supabase inicia sesión de inmediato y se salta la verificación.
 
 ---
 
@@ -200,9 +248,10 @@ npm run dev          # http://localhost:4000/api
 
 ## 🎨 Nota de diseño
 
-La apariencia es **idéntica** al HTML original (`landing_page_cacheteros.html`):
-mismos colores de marca, tipografías (Cormorant Garamond + Plus Jakarta Sans), mismas clases
-Tailwind, mismos SVG ilustrados, mismo carrito lateral, quick view, filtros y reseñas.
+La base visual es la del HTML original (`landing_page_cacheteros.html`): misma paleta de marca,
+tipografías (Cormorant Garamond + Plus Jakarta Sans), mismas clases Tailwind, carrito lateral,
+quick view, filtros y reseñas. Los productos ahora usan **fotos reales** (`public/products/`) en
+lugar de las ilustraciones SVG, y se añadió la sección **Conoce a LANË**.
 
 Los iconos de Lucide se renderizan como **componente Angular** (`app-icon`) en lugar del script CDN,
 para que el DOM no se rompa al re-renderizar las listas.

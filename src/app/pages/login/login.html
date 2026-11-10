@@ -37,7 +37,9 @@
           <div class="p-2.5 bg-white rounded-xl text-brand-gold shadow-sm">
             <app-icon name="sparkles" class="w-5 h-5" />
           </div>
-          <p class="text-sm text-brand-charcoal/80 font-light">10% OFF en tu primera compra</p>
+          <p class="text-sm text-brand-charcoal/80 font-light">
+            Colección premium al iniciar sesión
+          </p>
         </div>
       </div>
     </div>
@@ -57,7 +59,17 @@
         />
       </div>
 
-      @if (isRegister()) {
+      @if (isVerify()) {
+        <span class="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-medium">
+          Un último paso
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-brand-charcoal mt-2 mb-1">
+          Confirma tu correo
+        </h2>
+        <p class="text-xs text-brand-charcoal/70 font-light mb-7">
+          Queremos asegurarnos de que <span class="font-medium">{{ pendingEmail() }}</span> es tuyo.
+        </p>
+      } @else if (isRegister()) {
         <span class="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-medium">
           Bienvenida
         </span>
@@ -73,120 +85,154 @@
           Inicia sesión
         </h2>
         <p class="text-xs text-brand-charcoal/70 font-light mb-7">
-          Accede a tu carrito y a tus pedidos LANË.
+          Accede a tu carrito, a tus pedidos y a la colección premium LANË.
         </p>
       }
 
       <!-- Tabs -->
-      <div class="grid grid-cols-2 gap-1 p-1 bg-brand-blush rounded-full mb-7">
-        <button
-          type="button"
-          (click)="setMode('login')"
-          class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
-          [class.bg-white]="mode() === 'login'"
-          [class.text-brand-charcoal]="mode() === 'login'"
-          [class.shadow-sm]="mode() === 'login'"
-          [class.text-brand-charcoal/50]="mode() !== 'login'"
-        >
-          Iniciar Sesión
-        </button>
-        <button
-          type="button"
-          (click)="setMode('register')"
-          class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
-          [class.bg-white]="mode() === 'register'"
-          [class.text-brand-charcoal]="mode() === 'register'"
-          [class.shadow-sm]="mode() === 'register'"
-          [class.text-brand-charcoal/50]="mode() !== 'register'"
-        >
-          Crear Cuenta
-        </button>
-      </div>
+      @if (!isVerify()) {
+        <div class="grid grid-cols-2 gap-1 p-1 bg-brand-blush rounded-full mb-7">
+          <button
+            type="button"
+            (click)="setMode('login')"
+            class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
+            [class.bg-white]="mode() === 'login'"
+            [class.text-brand-charcoal]="mode() === 'login'"
+            [class.shadow-sm]="mode() === 'login'"
+            [class.text-brand-charcoal/50]="mode() !== 'login'"
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            type="button"
+            (click)="setMode('register')"
+            class="py-2.5 rounded-full text-[11px] uppercase tracking-widest font-medium transition-all"
+            [class.bg-white]="mode() === 'register'"
+            [class.text-brand-charcoal]="mode() === 'register'"
+            [class.shadow-sm]="mode() === 'register'"
+            [class.text-brand-charcoal/50]="mode() !== 'register'"
+          >
+            Crear Cuenta
+          </button>
+        </div>
+      }
 
       <form (submit)="submit($event)" class="space-y-4">
-        @if (isRegister()) {
+        @if (isVerify()) {
+          @if (isLocalMode()) {
+            @if (demoCode(); as code) {
+              <div
+                class="rounded-2xl border-2 border-dashed border-brand-gold/50 bg-brand-blush/60 px-4 py-3 text-center"
+              >
+                <p class="text-[10px] uppercase tracking-widest text-brand-charcoal/60">
+                  Código de demostración
+                </p>
+                <p class="font-mono text-2xl tracking-[0.4em] text-brand-charcoal font-semibold mt-1">
+                  {{ code }}
+                </p>
+                <p class="text-[10px] text-brand-charcoal/50 mt-1">
+                  En producción este código llega a tu correo.
+                </p>
+              </div>
+            }
+
+            <div class="space-y-1.5">
+              <label
+                for="verificationCode"
+                class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
+              >
+                Código de verificación
+              </label>
+              <div class="relative">
+                <app-icon
+                  name="mail"
+                  class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+                />
+                <input
+                  id="verificationCode"
+                  type="text"
+                  name="verificationCode"
+                  inputmode="numeric"
+                  autocomplete="one-time-code"
+                  maxlength="6"
+                  [(ngModel)]="verificationCode"
+                  placeholder="000000"
+                  class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-center font-mono text-lg tracking-[0.4em] text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                />
+              </div>
+              <p class="text-[10px] text-brand-charcoal/50 font-light">
+                El código vence en 15 minutos. Revisa tu bandeja de entrada y spam.
+              </p>
+            </div>
+          } @else {
+            <div
+              class="flex items-start gap-3 p-4 rounded-2xl bg-brand-blush/60 border border-brand-rose/40"
+            >
+              <app-icon name="mail" class="w-5 h-5 text-brand-gold mt-0.5 shrink-0" />
+              <p class="text-xs text-brand-charcoal/75 font-light leading-relaxed">
+                Enviamos un enlace de confirmación a
+                <span class="font-medium text-brand-charcoal">{{ pendingEmail() }}</span>. Ábrelo
+                desde tu correo para activar tu cuenta; al confirmarlo te llevaremos al catálogo
+                completo.
+              </p>
+            </div>
+          }
+        } @else {
+          @if (isRegister()) {
+            <div class="space-y-1.5">
+              <label
+                for="fullName"
+                class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
+              >
+                Nombre completo
+              </label>
+              <div class="relative">
+                <app-icon
+                  name="user"
+                  class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+                />
+                <input
+                  id="fullName"
+                  type="text"
+                  name="fullName"
+                  autocomplete="name"
+                  required
+                  [(ngModel)]="fullName"
+                  placeholder="Valeria Martinez"
+                  class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                />
+              </div>
+            </div>
+          }
+
           <div class="space-y-1.5">
-            <label for="fullName" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
-              Nombre completo
+            <label for="email" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
+              Correo electrónico
             </label>
             <div class="relative">
               <app-icon
-                name="user"
+                name="mail"
                 class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
               />
               <input
-                id="fullName"
-                type="text"
-                name="fullName"
+                id="email"
+                type="email"
+                name="email"
+                autocomplete="email"
                 required
-                [(ngModel)]="fullName"
-                placeholder="Valeria Martinez"
+                [(ngModel)]="email"
+                placeholder="tu@correo.com"
                 class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
               />
             </div>
           </div>
-        }
 
-        <div class="space-y-1.5">
-          <label for="email" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
-            Correo electrónico
-          </label>
-          <div class="relative">
-            <app-icon
-              name="mail"
-              class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
-            />
-            <input
-              id="email"
-              type="email"
-              name="email"
-              required
-              [(ngModel)]="email"
-              placeholder="tu@correo.com"
-              class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
-            />
-          </div>
-        </div>
-
-        <div class="space-y-1.5">
-          <label for="password" class="text-[11px] uppercase tracking-widest text-brand-charcoal/60">
-            Contraseña
-          </label>
-          <div class="relative">
-            <app-icon
-              name="lock"
-              class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
-            />
-            <input
-              id="password"
-              [type]="showPassword() ? 'text' : 'password'"
-              name="password"
-              required
-              [(ngModel)]="password"
-              placeholder="••••••••"
-              class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
-            />
-            <button
-              type="button"
-              (click)="showPassword.set(!showPassword())"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-charcoal/40 hover:text-brand-gold"
-              aria-label="Mostrar contraseña"
-            >
-              <app-icon name="eye" class="w-4 h-4" />
-            </button>
-          </div>
-          @if (isRegister()) {
-            <p class="text-[10px] text-brand-charcoal/50 font-light">Mínimo 6 caracteres.</p>
-          }
-        </div>
-
-        @if (isRegister()) {
           <div class="space-y-1.5">
             <label
-              for="confirmPassword"
+              for="password"
               class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
             >
-              Confirmar contraseña
+              Contraseña
             </label>
             <div class="relative">
               <app-icon
@@ -194,16 +240,77 @@
                 class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
               />
               <input
-                id="confirmPassword"
+                id="password"
                 [type]="showPassword() ? 'text' : 'password'"
-                name="confirmPassword"
+                name="password"
+                [attr.autocomplete]="isRegister() ? 'new-password' : 'current-password'"
                 required
-                [(ngModel)]="confirmPassword"
+                [(ngModel)]="password"
                 placeholder="••••••••"
-                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
               />
+              <button
+                type="button"
+                (click)="showPassword.set(!showPassword())"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-brand-charcoal/40 hover:text-brand-gold"
+                aria-label="Mostrar contraseña"
+              >
+                <app-icon name="eye" class="w-4 h-4" />
+              </button>
             </div>
+
+            @if (isRegister()) {
+              <!-- Checklist de contraseña -->
+              <div class="grid grid-cols-2 gap-1.5 pt-1">
+                @for (rule of passwordRules; track rule.label) {
+                  <div
+                    class="flex items-center gap-1.5 text-[10px] font-light transition-colors"
+                    [class.text-emerald-700]="rule.ok"
+                    [class.text-brand-charcoal/45]="!rule.ok"
+                  >
+                    <span
+                      class="w-3.5 h-3.5 rounded-full flex items-center justify-center border shrink-0"
+                      [class.bg-emerald-100]="rule.ok"
+                      [class.border-emerald-300]="rule.ok"
+                      [class.border-brand-rose/60]="!rule.ok"
+                    >
+                      @if (rule.ok) {
+                        <app-icon name="check" class="w-2.5 h-2.5" />
+                      }
+                    </span>
+                    {{ rule.label }}
+                  </div>
+                }
+              </div>
+            }
           </div>
+
+          @if (isRegister()) {
+            <div class="space-y-1.5">
+              <label
+                for="confirmPassword"
+                class="text-[11px] uppercase tracking-widest text-brand-charcoal/60"
+              >
+                Confirmar contraseña
+              </label>
+              <div class="relative">
+                <app-icon
+                  name="lock"
+                  class="w-4 h-4 text-brand-charcoal/40 absolute left-4 top-1/2 -translate-y-1/2"
+                />
+                <input
+                  id="confirmPassword"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  name="confirmPassword"
+                  autocomplete="new-password"
+                  required
+                  [(ngModel)]="confirmPassword"
+                  placeholder="••••••••"
+                  class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[#FAF6F0] border border-brand-rose/60 text-sm text-brand-charcoal focus:outline-none focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 transition-all"
+                />
+              </div>
+            </div>
+          }
         }
 
         @if (errorMessage()) {
@@ -224,34 +331,66 @@
           </div>
         }
 
-        <button
-          type="submit"
-          [disabled]="isSubmitting()"
-          class="w-full py-4 bg-brand-charcoal text-white rounded-full text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-gold transition-all duration-300 shadow-lg hover:shadow-brand-gold/20 disabled:opacity-60 flex items-center justify-center gap-2"
-        >
-          @if (isSubmitting()) {
-            <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
-            <span>{{ isRegister() ? 'Creando cuenta...' : 'Entrando...' }}</span>
-          } @else {
-            <span>{{ isRegister() ? 'Crear mi cuenta' : 'Iniciar sesión' }}</span>
-            <app-icon name="arrow-right" class="w-4 h-4" />
-          }
-        </button>
+        @if (!isVerify() || isLocalMode()) {
+          <button
+            type="submit"
+            [disabled]="isSubmitting()"
+            class="w-full py-4 bg-brand-charcoal text-white rounded-full text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-gold transition-all duration-300 shadow-lg hover:shadow-brand-gold/20 disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            @if (isSubmitting()) {
+              <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
+              <span>
+                {{ isVerify() ? 'Verificando...' : isRegister() ? 'Creando cuenta...' : 'Entrando...' }}
+              </span>
+            } @else {
+              <span>
+                {{ isVerify() ? 'Verificar correo' : isRegister() ? 'Crear mi cuenta' : 'Iniciar sesión' }}
+              </span>
+              <app-icon name="arrow-right" class="w-4 h-4" />
+            }
+          </button>
+        }
       </form>
 
-      <div class="flex items-center gap-4 my-7">
-        <span class="h-px flex-1 bg-brand-rose/50"></span>
-        <span class="text-[10px] uppercase tracking-widest text-brand-charcoal/40">o</span>
-        <span class="h-px flex-1 bg-brand-rose/50"></span>
-      </div>
+      @if (isVerify()) {
+        <div class="mt-5 space-y-2">
+          <button
+            type="button"
+            (click)="resend()"
+            [disabled]="isResending()"
+            class="w-full py-3.5 bg-white/80 border border-brand-charcoal/20 text-brand-charcoal rounded-full text-xs uppercase tracking-widest font-medium hover:bg-brand-rose/40 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            @if (isResending()) {
+              <app-icon name="loader-circle" class="w-3.5 h-3.5 animate-spin" />
+              <span>Reenviando...</span>
+            } @else {
+              <app-icon name="mail" class="w-3.5 h-3.5" />
+              <span>{{ isLocalMode() ? 'Reenviar código' : 'Reenviar correo' }}</span>
+            }
+          </button>
+          <button
+            type="button"
+            (click)="setMode('login')"
+            class="w-full py-2 text-[11px] uppercase tracking-widest text-brand-charcoal/50 hover:text-brand-gold transition-colors"
+          >
+            Volver a iniciar sesión
+          </button>
+        </div>
+      } @else {
+        <div class="flex items-center gap-4 my-7">
+          <span class="h-px flex-1 bg-brand-rose/50"></span>
+          <span class="text-[10px] uppercase tracking-widest text-brand-charcoal/40">o</span>
+          <span class="h-px flex-1 bg-brand-rose/50"></span>
+        </div>
 
-      <button
-        type="button"
-        (click)="exploreAsGuest()"
-        class="w-full py-3.5 bg-white/80 border border-brand-charcoal/20 text-brand-charcoal rounded-full text-xs uppercase tracking-widest font-medium hover:bg-brand-rose/40 transition-all"
-      >
-        Explorar como invitado
-      </button>
+        <button
+          type="button"
+          (click)="exploreAsGuest()"
+          class="w-full py-3.5 bg-white/80 border border-brand-charcoal/20 text-brand-charcoal rounded-full text-xs uppercase tracking-widest font-medium hover:bg-brand-rose/40 transition-all"
+        >
+          Explorar como invitado
+        </button>
+      }
 
       <p class="text-[11px] text-brand-charcoal/50 font-light text-center mt-6 leading-relaxed">
         Al continuar aceptas que LANË trate tus datos con total discreción.

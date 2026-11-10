@@ -11,5 +11,6 @@ export class HeroComponent {
   private products = inject(ProductsService);
   readonly cart = inject(CartService);
 
-  readonly featured = computed(() => this.products.products().find((p) => p.id === 1));
+  /** Producto destacado: siempre uno visible para la visitante actual. */
+  readonly featured = computed(() => this.products.availableProducts()[0] ?? null);
 }
