@@ -120,6 +120,25 @@ gratuito de Vercel sirve estos ~920 KB sin problema.
 Para cambiar una foto: reemplaza el archivo manteniendo el nombre, o sube uno nuevo y actualiza el
 campo `image` del producto (ej. `products/mi-foto.jpg`).
 
+### Documentos fuente (`lane barato.docx` / `lane premium.docx`)
+
+Los dos `.docx` de la clienta son **material fuente**, no archivos que la web necesite descargar.
+Se quedan en la raíz del repo para editar el catálogo; lo que sí se despliega en Vercel son las
+10 fotos extraídas y optimizadas que están en `public/products/`. Si algún día quieres publicar los
+documentos originales, muévelos a `public/catalogo/` y quedarán accesibles en
+`https://tu-dominio.vercel.app/catalogo/lane-barato.docx` (no es recomendable: pesan varios MB y
+no aportan nada al comprador).
+
+### Foto de la fundadora
+
+La sección **Conoce a LANË** ya tiene el espacio y la firma de Sharon. Mientras no exista una foto
+profesional autorizada, usa una imagen de marca (`products/maison-marfil.jpg`) para no inventar
+una identidad. Cuando Sharon apruebe una foto, guárdala como `public/founders/sharon.jpg` y cambia
+el `src` del bloque `<!-- Para usar una foto real de Sharon... -->` en
+`src/app/shared/sections/about/about.html`. Una foto real de la fundadora **sí ayuda** a la
+confianza de una marca de lencería, pero debe ser una foto real, con consentimiento y de buena
+calidad; una imagen generada por IA sería contraproducente.
+
 ### Línea básica vs. premium
 
 - `tier: 'basico'` → línea Alpaca (`$14.90`). Visible para todas las visitas.

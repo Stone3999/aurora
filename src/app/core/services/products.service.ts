@@ -1,5 +1,5 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { CATEGORY_FILTERS, FALLBACK_PRODUCTS } from '../data/products.data';
+import { CATEGORY_FILTERS, FALLBACK_PRODUCTS, filterProductsByTier } from '../data/products.data';
 import { Product, ProductColor, ProductTier } from '../models/product.model';
 import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
@@ -29,10 +29,9 @@ export class ProductsService {
    * sin sesión -> solo línea alpaca (tier 'basico');
    * con sesión -> catálogo completo, incluida la línea premium.
    */
-  public readonly availableProducts = computed(() => {
-    const loggedIn = this.auth.isLoggedIn();
-    return this.products().filter((p) => loggedIn || p.tier !== 'premium');
-  });
+  public readonly availableProducts = computed(() =>
+    filterProductsByTier(this.products(), this.auth.isLoggedIn())
+  );
 
   public readonly visibleProducts = computed(() => {
     const filter = this.activeFilter();
@@ -57,6 +56,23 @@ export class ProductsService {
       if (!this.auth.isLoggedIn() && this.activeFilter() === 'premium') {
         this.activeFilter.set('todos');
       }
+    });
+
+    // Supabase aplica RLS: una visita anónima solo recibe la línea básica.
+    // Al iniciar sesión hay que volver a consultar para traer la premium;
+    // al cerrar sesión hay que ocultarla también en la copia de la DB.
+    let lastLoggedIn: boolean | null = null;
+    effect(() => {
+      const loggedIn = this.auth.isLoggedIn();
+      if (lastLoggedIn === null) {
+        lastLoggedIn = loggedIn;
+        return;
+      }
+      if (loggedIn === lastLoggedIn) return;
+
+      lastLoggedIn = loggedIn;
+      this.activeFilter.set('todos');
+      void this.load();
     });
   }
 

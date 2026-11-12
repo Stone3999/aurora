@@ -158,3 +158,12 @@ export const CATEGORY_FILTERS: CategoryFilter[] = [
   { key: 'alpaca', label: 'Línea Alpaca' },
   { key: 'premium', label: 'Encaje Premium', requiresSession: true }
 ];
+
+/**
+ * Regla única de visibilidad del catálogo.
+ * Sin sesión: solo `tier: 'basico'`. Con sesión: catálogo completo.
+ * Se exporta aparte para poder probarla sin levantar Angular.
+ */
+export function filterProductsByTier(products: Product[], loggedIn: boolean): Product[] {
+  return loggedIn ? products : products.filter((product) => product.tier !== 'premium');
+}
