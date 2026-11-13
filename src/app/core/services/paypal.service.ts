@@ -68,7 +68,7 @@ export class PaypalService {
         provider: 'paypal',
         enabled: false,
         mode: 'sandbox',
-        currency: 'USD',
+        currency: 'MXN',
         clientId: null,
         reason: 'No se pudo contactar al servidor de pagos.'
       });
@@ -81,7 +81,7 @@ export class PaypalService {
   buildSdkUrl(clientId: string, currency: string): string {
     const params = new URLSearchParams({
       'client-id': clientId,
-      currency: currency || 'USD',
+      currency: currency || 'MXN',
       intent: 'capture',
       components: 'buttons'
     });
@@ -143,3 +143,4 @@ export class PaypalService {
     return this.sdkPromise;
   }
 }
+

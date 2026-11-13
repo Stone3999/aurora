@@ -11,7 +11,7 @@ const config = require('./config');
  *
  * Variables de entorno:
  *   PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PAYPAL_MODE (sandbox|live),
- *   PAYPAL_CURRENCY (USD), PAYPAL_WEBHOOK_ID (opcional, para webhooks).
+ *   PAYPAL_CURRENCY (MXN), PAYPAL_WEBHOOK_ID (opcional, para webhooks).
  */
 
 class PayPalError extends Error {
@@ -131,7 +131,7 @@ function buildOrderPayload({ orderId, total, currency, description }) {
         custom_id: String(orderId),
         description: String(description || `Pedido LANË ${orderId}`).slice(0, 127),
         amount: {
-          currency_code: String(currency || 'USD').toUpperCase(),
+          currency_code: String(currency || 'MXN').toUpperCase(),
           value: value.toFixed(2)
         }
       }
@@ -207,7 +207,7 @@ function assertCaptureMatchesOrder(capture, order) {
     );
   }
 
-  const expectedCurrency = String(config.paypal.currency || 'USD').toUpperCase();
+  const expectedCurrency = String(config.paypal.currency || 'MXN').toUpperCase();
   const receivedCurrency = String(capture.currency || '').toUpperCase();
 
   if (receivedCurrency !== expectedCurrency) {

@@ -19,7 +19,7 @@ export class CartDrawerComponent {
 
   readonly isProcessing = signal(false);
 
-  readonly formattedSubtotal = computed(() => `$${this.cart.subtotal().toFixed(2)} USD`);
+  readonly formattedSubtotal = computed(() => `$${this.cart.subtotal().toFixed(2)} MXN`);
 
   close() {
     this.cart.closeCart();

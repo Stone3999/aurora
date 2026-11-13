@@ -145,8 +145,11 @@ calidad; una imagen generada por IA sería contraproducente.
 
 ### Línea básica vs. premium
 
-- `tier: 'basico'` → línea Alpaca (`$14.90`). Visible para todas las visitas.
-- `tier: 'premium'` → Maison du Soie (`$49.90`). Solo aparece con sesión iniciada.
+- `tier: 'basico'` → línea Alpaca (`$299 MXN`). Visible para todas las visitas.
+- `tier: 'premium'` → Maison du Soie (`$999 MXN`). Solo aparece con sesión iniciada.
+
+Todos los precios están en **pesos mexicanos (MXN)**: el catálogo, el envío gratis desde `$1,000 MXN`
+y el cobro de PayPal usan la misma moneda.
 
 El filtro se aplica en **tres capas**: `ProductsService` (frontend), las políticas **RLS** de
 Supabase (`tier = 'basico'` para `anon`) y el backend (mismo criterio en `/api/products`).
@@ -171,11 +174,16 @@ Con eso se crean: `profiles`, `products`, `cart_items`, `orders`, `order_items`,
 ```ts
 export const environment = {
   production: true,
-  supabaseUrl: 'https://TU_PROYECTO.supabase.co',          // Project Settings -> API
-  supabaseKey: 'TU_SUPABASE_ANON_KEY',                     // la "anon" / "publishable" key
-  apiUrl: 'https://TU_BACKEND.onrender.com/api'            // <- el link que te da Render
+  supabaseUrl: 'https://obnhtusbfbttcifxcozr.supabase.co',  // Project Settings -> API
+  supabaseKey: 'sb_publishable_...',                        // publishable / anon (pública)
+  apiUrl: 'https://TU_BACKEND.onrender.com/api'             // <- el link que te da Render
 };
 ```
+
+> **Publishable vs. secret.** En el dashboard nuevo, Supabase muestra dos llaves:
+> `sb_publishable_...` es la **pública** (va en el frontend, es normal que se vea en el navegador) y
+> `sb_secret_...` es la **secreta** (va solo en `backend/.env` y en Render). La `service_role` clásica
+> (un JWT largo) también sirve como secreta. **Nunca** pongas la secreta en `src/environments/`.
 
 Mientras no cambies los placeholders, la app funciona igual: usa el catálogo local y muestra un aviso
 al suscribirse al newsletter.
@@ -257,12 +265,15 @@ El cobro se hace **server-side** con **PayPal Orders v2**:
 
 > El **Client Secret nunca llega al navegador**. El frontend pide el Client ID a
 > `GET /api/payments/config`, que es público por diseño.
+>
+> La tienda cobra en **MXN** (`PAYPAL_CURRENCY=MXN`). Los precios del catálogo ya están en pesos:
+> `$299` la línea Alpaca y `$999` la premium.
 
 ### a) Dónde pegar las llaves
 
 | Entorno | Archivo / panel | Variables |
 |---------|-----------------|-----------|
-| **Local** | `backend/.env` | `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MODE=sandbox`, `PAYPAL_CURRENCY=USD`, `PAYPAL_WEBHOOK_ID` |
+| **Local** | `backend/.env` | `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MODE=sandbox`, `PAYPAL_CURRENCY=MXN`, `PAYPAL_WEBHOOK_ID` |
 | **Producción** | Render → tu servicio → **Environment** | Las mismas cinco variables |
 | **Frontend** | ❌ no se pone ninguna llave | Solo `apiUrl` en `src/environments/environment.ts` |
 

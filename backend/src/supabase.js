@@ -44,7 +44,7 @@ const seedProducts = [
     slug: 'alpaca-verde-oscuro',
     category: 'alpaca',
     tier: 'basico',
-    price: 14.9,
+    price: 299,
     tag: 'Más Vendido',
     description:
       'Punto de alpaca ultra suave y transpirable. Pretina ancha que abraza sin marcar, ideal para el día a día.',
@@ -57,7 +57,7 @@ const seedProducts = [
     slug: 'alpaca-rosa-empolvado',
     category: 'alpaca',
     tier: 'basico',
-    price: 14.9,
+    price: 299,
     tag: 'Nuevo',
     description:
       'El rosa empolvado que combina con todo. Tejido elástico que se adapta al cuerpo sin apretar.',
@@ -70,7 +70,7 @@ const seedProducts = [
     slug: 'alpaca-azul-polvoriento',
     category: 'alpaca',
     tier: 'basico',
-    price: 14.9,
+    price: 299,
     tag: 'Favorito',
     description:
       'Serenidad en azul polvoriento. Fibra natural que mantiene la frescura y la suavidad todo el día.',
@@ -83,7 +83,7 @@ const seedProducts = [
     slug: 'alpaca-mostaza',
     category: 'alpaca',
     tier: 'basico',
-    price: 14.9,
+    price: 299,
     tag: 'Edición Otoño',
     description:
       'Un cálido mostaza para romper la rutina. Corte cómodo, cobertura perfecta y acabado sin costuras.',
@@ -96,7 +96,7 @@ const seedProducts = [
     slug: 'alpaca-morado-oscuro',
     category: 'alpaca',
     tier: 'basico',
-    price: 14.9,
+    price: 299,
     tag: 'Últimas Piezas',
     description:
       'Profundo y elegante. Alpaca fina que cuida la piel sensible y se siente como una segunda piel.',
@@ -111,7 +111,7 @@ const seedProducts = [
     slug: 'maison-negro',
     category: 'premium',
     tier: 'premium',
-    price: 49.9,
+    price: 999,
     tag: 'Icono LANË',
     description:
       'Encaje francés cosido a mano y satén de seda con dije dorado. Presentado en caja de regalo Maison du Soie.',
@@ -124,7 +124,7 @@ const seedProducts = [
     slug: 'maison-vino',
     category: 'premium',
     tier: 'premium',
-    price: 49.9,
+    price: 999,
     tag: 'Edición Limitada',
     description:
       'Un vino intenso en seda y encaje floral. El detalle de lujo que convierte lo cotidiano en una ocasión especial.',
@@ -137,7 +137,7 @@ const seedProducts = [
     slug: 'maison-marfil',
     category: 'premium',
     tier: 'premium',
-    price: 49.9,
+    price: 999,
     tag: 'Lujo Íntimo',
     description:
       'Marfil luminoso con blonda de encaje y dije dorado. Delicadeza y confort en una pieza de colección.',
@@ -150,7 +150,7 @@ const seedProducts = [
     slug: 'maison-nude',
     category: 'premium',
     tier: 'premium',
-    price: 49.9,
+    price: 999,
     tag: 'Best Seller',
     description:
       'El nude que se funde con la piel. Seda suave, encaje ligero y un ajuste que no marca bajo la ropa.',
@@ -163,7 +163,7 @@ const seedProducts = [
     slug: 'maison-pizarra',
     category: 'premium',
     tier: 'premium',
-    price: 49.9,
+    price: 999,
     tag: 'Nuevo',
     description:
       'Azul pizarra con encaje escultural. Una edición sofisticada para quienes coleccionan detalles únicos.',

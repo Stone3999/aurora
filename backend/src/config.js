@@ -41,10 +41,10 @@ module.exports = {
   },
 
   store: {
-    // Envío gratis a partir de este monto (USD), igual que el banner de la landing.
-    freeShippingThreshold: Number(process.env.FREE_SHIPPING_THRESHOLD) || 50,
+    // Envío gratis a partir de este monto (MXN), igual que el banner de la landing.
+    freeShippingThreshold: Number(process.env.FREE_SHIPPING_THRESHOLD) || 1000,
     shippingCost: Number(process.env.SHIPPING_COST) || 0,
-    currency: 'USD'
+    currency: 'MXN'
   },
 
   paypal: {
@@ -53,7 +53,7 @@ module.exports = {
     clientId: process.env.PAYPAL_CLIENT_ID || '',
     clientSecret: process.env.PAYPAL_CLIENT_SECRET || '',
     mode: paypalMode,
-    currency: String(process.env.PAYPAL_CURRENCY || 'USD').toUpperCase(),
+    currency: String(process.env.PAYPAL_CURRENCY || 'MXN').toUpperCase(),
     webhookId: process.env.PAYPAL_WEBHOOK_ID || '',
     isConfigured: isPaypalConfigured()
   }

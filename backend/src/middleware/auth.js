@@ -3,6 +3,16 @@
  * Si no viene un `Authorization: Bearer <access_token>` devuelve 401.
  */
 async function requireAuth(req, res, next) {
+  const { getSupabase } = require('../supabase');
+  const supabase = getSupabase();
+
+  if (!supabase) {
+    // Si Supabase no está configurado, no se puede validar: se deja pasar
+    // para no bloquear el desarrollo local (modo demo).
+    req.user = null;
+    return next();
+  }
+
   const authHeader = req.headers.authorization || '';
 
   if (!authHeader.startsWith('Bearer ')) {
@@ -10,15 +20,6 @@ async function requireAuth(req, res, next) {
   }
 
   const token = authHeader.slice(7).trim();
-  const { getSupabase } = require('../supabase');
-  const supabase = getSupabase();
-
-  if (!supabase) {
-    // Si Supabase no está configurado, no se puede validar: se deja pasar
-    // para no bloquear el desarrollo local.
-    req.user = null;
-    return next();
-  }
 
   try {
     const { data, error } = await supabase.auth.getUser(token);

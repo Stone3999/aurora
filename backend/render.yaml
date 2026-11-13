@@ -18,7 +18,7 @@ services:
       - key: CORS_ORIGINS
         sync: false
       - key: FREE_SHIPPING_THRESHOLD
-        value: "50"
+        value: "1000"
       - key: SHIPPING_COST
         value: "0"
       # PayPal: se llenan en Render -> Environment (nunca en el repositorio)
@@ -29,6 +29,6 @@ services:
       - key: PAYPAL_MODE
         value: sandbox
       - key: PAYPAL_CURRENCY
-        value: USD
+        value: MXN
       - key: PAYPAL_WEBHOOK_ID
         sync: false

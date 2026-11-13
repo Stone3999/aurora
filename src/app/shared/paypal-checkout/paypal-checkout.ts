@@ -51,7 +51,7 @@ export class PaypalCheckoutComponent implements AfterViewInit, OnDestroy {
 
   readonly formattedTotal = computed(() => {
     const order = this.order();
-    return order ? `$${order.total.toFixed(2)} ${order.currency ?? 'USD'}` : '';
+    return order ? `$${order.total.toFixed(2)} ${order.currency ?? 'MXN'}` : '';
   });
 
   ngAfterViewInit(): void {

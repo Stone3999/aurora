@@ -1,6 +1,12 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
+// El resultado no debe depender del `.env` local: se fijan valores conocidos.
+process.env.PAYPAL_CLIENT_ID = '';
+process.env.PAYPAL_CLIENT_SECRET = '';
+process.env.PAYPAL_MODE = 'sandbox';
+process.env.PAYPAL_CURRENCY = 'MXN';
+
 const paypal = require('../src/paypal');
 
 test('buildOrderPayload usa el total del servidor con 2 decimales', () => {
@@ -71,8 +77,8 @@ test('extractCapture devuelve null si no hay captura', () => {
 
 test('assertCaptureMatchesOrder acepta una captura correcta', () => {
   const ok = paypal.assertCaptureMatchesOrder(
-    { status: 'COMPLETED', value: '24.90', currency: 'USD' },
-    { total: 24.9 }
+    { status: 'COMPLETED', value: '299.00', currency: 'MXN' },
+    { total: 299 }
   );
 
   assert.equal(ok, true);
