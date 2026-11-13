@@ -47,3 +47,6 @@ lane barato.docx
 lane premium.docx
 lane barato.txt
 lane premium.txt
+
+# Variables de entorno para Render (contiene secretos)
+render-env.txt
