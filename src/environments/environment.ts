@@ -6,5 +6,5 @@ export const environment = {
   supabaseKey: 'sb_publishable_1tosci749QdC3wBQJMgGJA_KjZV93-D',
   // URL pública que te generará Render para tu backend
   // Ej: https://lane-backend.onrender.com/api
-  apiUrl: 'https://tu-backend-en-render.onrender.com/api'
+  apiUrl: 'https://aurora-jd6r.onrender.com/api'
 };
