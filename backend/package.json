@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
+    "build": "node --check src/server.js && node --check src/paypal.js && node --check src/routes/payments.js",
     "test": "node --test"
   },
   "keywords": [
