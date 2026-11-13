@@ -104,8 +104,24 @@ create table if not exists public.orders (
   total numeric(10, 2) not null,
   shipping_address jsonb,
   notes text,
+  -- PayPal (ver supabase/migrations/20261112_paypal.sql)
+  payment_provider text,
+  payment_reference text,
+  paypal_order_id text,
+  paid_at timestamp with time zone,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+-- Compatibilidad con bases de datos creadas antes de la integración de PayPal.
+alter table public.orders
+  add column if not exists payment_provider text,
+  add column if not exists payment_reference text,
+  add column if not exists paypal_order_id text,
+  add column if not exists paid_at timestamp with time zone;
+
+create unique index if not exists orders_paypal_order_id_key
+  on public.orders (paypal_order_id)
+  where paypal_order_id is not null;
 
 -- =============================================================================
 -- TABLA: ITEMS DE PEDIDOS (public.order_items)

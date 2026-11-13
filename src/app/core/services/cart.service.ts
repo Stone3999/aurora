@@ -4,6 +4,14 @@ import { STORAGE_KEYS, StorageService } from './storage.service';
 import { SupabaseService } from './supabase.service';
 import { CartItem, Product, ProductColor } from '../models/product.model';
 
+export interface PendingOrder {
+  id: string;
+  total: number;
+  subtotal?: number;
+  shippingCost?: number;
+  currency?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private supabaseService = inject(SupabaseService);
@@ -18,6 +26,10 @@ export class CartService {
   public readonly toastMessage = signal<string | null>(null);
   public readonly toastVisible = signal(false);
   public readonly isCartSyncing = signal(false);
+
+  /** Pedido creado en el backend que espera el pago con PayPal. */
+  public readonly pendingOrder = signal<PendingOrder | null>(null);
+  public readonly isPaymentOpen = signal(false);
 
   public readonly totalItems = computed(() =>
     this.items().reduce((acc, item) => acc + item.quantity, 0)
@@ -178,6 +190,25 @@ export class CartService {
     } catch (err) {
       console.warn('[CartService] no se pudo vaciar el carrito', err);
     }
+  }
+
+  /** Abre el modal de PayPal para un pedido ya creado en el backend. */
+  openPayment(order: PendingOrder) {
+    this.pendingOrder.set(order);
+    this.isPaymentOpen.set(true);
+    this.closeCart();
+  }
+
+  closePayment() {
+    this.isPaymentOpen.set(false);
+  }
+
+  /** Se llama SOLO cuando el backend confirmó la captura del pago. */
+  async completePayment() {
+    await this.clearCart();
+    this.isPaymentOpen.set(false);
+    this.pendingOrder.set(null);
+    this.showToast('¡Pago aprobado! Tu pedido quedó confirmado.');
   }
 
   toggleCart() {

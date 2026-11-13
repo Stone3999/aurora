@@ -53,10 +53,15 @@ export class CartDrawerComponent {
         }))
       });
 
-      if (result.ok) {
-        await this.cart.clearCart();
-        this.cart.closeCart();
-        this.cart.showToast('¡Gracias por tu pedido! Redirigiendo a la pasarela de pago segura…');
+      if (result.ok && result.orderId) {
+        // El pedido queda "pending" hasta que PayPal confirme la captura.
+        this.cart.openPayment({
+          id: result.orderId,
+          total: result.total ?? this.cart.subtotal(),
+          subtotal: result.subtotal,
+          shippingCost: result.shippingCost,
+          currency: result.currency
+        });
       } else {
         // Backend no disponible: no se pierde el pedido, se informa al cliente.
         this.cart.showToast(

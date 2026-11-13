@@ -21,3 +21,14 @@ services:
         value: "50"
       - key: SHIPPING_COST
         value: "0"
+      # PayPal: se llenan en Render -> Environment (nunca en el repositorio)
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_MODE
+        value: sandbox
+      - key: PAYPAL_CURRENCY
+        value: USD
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false

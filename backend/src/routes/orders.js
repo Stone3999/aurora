@@ -2,6 +2,7 @@ const express = require('express');
 const { getSupabase } = require('../supabase');
 const { requireAuth } = require('../middleware/auth');
 const config = require('../config');
+const { createDemoOrder } = require('../demo-orders');
 
 const router = express.Router();
 
@@ -47,6 +48,19 @@ router.post('/checkout', requireAuth, async (req, res) => {
     return res.status(400).json({ ok: false, message: 'El carrito está vacío.' });
   }
 
+  const invalidItem = items.find((i) => {
+    const price = Number(i?.price);
+    const quantity = Number(i?.quantity);
+    return !Number.isFinite(price) || price < 0 || !Number.isInteger(quantity) || quantity <= 0;
+  });
+
+  if (invalidItem) {
+    return res.status(400).json({
+      ok: false,
+      message: 'Hay un artículo con precio o cantidad inválidos.'
+    });
+  }
+
   const subtotal = items.reduce(
     (acc, i) => acc + Number(i.price || 0) * Number(i.quantity || 0),
     0
@@ -58,14 +72,29 @@ router.post('/checkout', requireAuth, async (req, res) => {
 
   const supabase = getSupabase();
 
-  // Sin Supabase configurado se responde OK para no romper la demo del frontend.
+  // Sin Supabase configurado se guarda el pedido en memoria para poder
+  // probar el flujo completo de PayPal en localhost.
   if (!supabase) {
-    console.log(`[checkout] ${customer_email} — $${total.toFixed(2)} (Supabase no configurado)`);
+    const demoOrder = createDemoOrder({
+      userId: req.user?.id ?? null,
+      email: customer_email,
+      name: customer_name,
+      subtotal,
+      shipping: shippingCost,
+      total,
+      items
+    });
+
+    console.log(`[checkout demo] ${customer_email} — $${total.toFixed(2)} — ${demoOrder.id}`);
+
     return res.json({
       ok: true,
-      orderId: `demo-${Date.now()}`,
+      orderId: demoOrder.id,
+      subtotal: Number(subtotal.toFixed(2)),
+      shippingCost: Number(shippingCost.toFixed(2)),
       total: Number(total.toFixed(2)),
-      message: '¡Gracias por tu pedido! Redirigiendo a la pasarela de pago segura con empaque discreto...'
+      currency: config.paypal.currency,
+      message: 'Pedido creado. Completa el pago con PayPal.'
     });
   }
 
@@ -101,17 +130,15 @@ router.post('/checkout', requireAuth, async (req, res) => {
     const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
     if (itemsError) throw itemsError;
 
-    // Vaciar el carrito del usuario
-    if (req.user?.id) {
-      await supabase.from('cart_items').delete().eq('user_id', req.user.id);
-    }
-
+    // El carrito NO se vacía aquí: se vacía cuando PayPal confirma la captura.
     return res.json({
       ok: true,
       orderId: order.id,
+      subtotal: Number(subtotal.toFixed(2)),
+      shippingCost: Number(shippingCost.toFixed(2)),
       total: Number(total.toFixed(2)),
-      message:
-        '¡Gracias por tu pedido! Redirigiendo a la pasarela de pago segura con empaque discreto...'
+      currency: config.paypal.currency,
+      message: 'Pedido creado. Completa el pago con PayPal.'
     });
   } catch (err) {
     console.error('[POST /checkout]', err);

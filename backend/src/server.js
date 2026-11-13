@@ -9,6 +9,7 @@ const { getSupabase, getUnavailableReason } = require('./supabase');
 const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
+const paymentRoutes = require('./routes/payments');
 
 const app = express();
 
@@ -48,6 +49,7 @@ api.get('/health', (req, res) => {
 api.use('/', productRoutes);
 api.use('/', cartRoutes);
 api.use('/', orderRoutes);
+api.use('/', paymentRoutes);
 
 app.use('/api', api);
 

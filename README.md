@@ -45,11 +45,15 @@ lane/
 │   └── ...
 ├── backend/                       <- API REST (Render)
 │   ├── src/server.js, config.js, supabase.js
-│   ├── src/routes/{products,cart,orders}.js
+│   ├── src/paypal.js              <- cliente PayPal (Orders v2)
+│   ├── src/routes/{products,cart,orders,payments}.js
 │   ├── src/middleware/auth.js
+│   ├── test/paypal.test.js
 │   ├── .env.example
 │   └── render.yaml
-├── supabase/schema.sql            <- ⭐ CREA TODA LA BASE DE DATOS
+├── supabase/
+│   ├── schema.sql                 <- ⭐ CREA TODA LA BASE DE DATOS
+│   └── migrations/20261112_paypal.sql
 └── vercel.json                    <- config del frontend en Vercel
 ```
 
@@ -225,6 +229,10 @@ NODE_ENV=production
 | PUT | `/api/cart` | Sincroniza el carrito (requiere token) |
 | POST | `/api/newsletter` | Alta al newsletter |
 | POST | `/api/checkout` | Crea pedido + order_items (requiere token) |
+| GET | `/api/payments/config` | Client ID público + modo/estado de PayPal |
+| POST | `/api/payments/paypal/create` | Crea la orden en PayPal con el total de la DB (requiere token) |
+| POST | `/api/payments/paypal/capture` | Captura y verifica monto/moneda, marca el pedido pagado (requiere token) |
+| POST | `/api/payments/paypal/webhook` | Respaldo de PayPal si el navegador se cierra |
 
 ### Probarlo en local
 
@@ -237,7 +245,76 @@ npm run dev
 
 ---
 
-## 🌐 3. Frontend en Vercel
+## 💳 3. Pagos con PayPal
+
+El cobro se hace **server-side** con **PayPal Orders v2**:
+
+1. `POST /api/checkout` crea el pedido en estado `pending` y devuelve el total **calculado en el servidor**.
+2. `POST /api/payments/paypal/create` crea la orden en PayPal con ese total (el navegador nunca lo envía).
+3. El comprador aprueba con los **botones oficiales** de PayPal.
+4. `POST /api/payments/paypal/capture` captura el pago, verifica que el **monto y la moneda** coincidan
+   y recién entonces marca el pedido como `paid` y vacía el carrito.
+
+> El **Client Secret nunca llega al navegador**. El frontend pide el Client ID a
+> `GET /api/payments/config`, que es público por diseño.
+
+### a) Dónde pegar las llaves
+
+| Entorno | Archivo / panel | Variables |
+|---------|-----------------|-----------|
+| **Local** | `backend/.env` | `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MODE=sandbox`, `PAYPAL_CURRENCY=USD`, `PAYPAL_WEBHOOK_ID` |
+| **Producción** | Render → tu servicio → **Environment** | Las mismas cinco variables |
+| **Frontend** | ❌ no se pone ninguna llave | Solo `apiUrl` en `src/environments/environment.ts` |
+
+`backend/.env` está en `.gitignore`: no se sube al repo. `backend/.env.example` y
+`backend/render.yaml` documentan las variables.
+
+### b) Obtener las credenciales
+
+1. Entra a [developer.paypal.com/dashboard/applications](https://developer.paypal.com/dashboard/applications).
+2. Crea una app (o abre la existente) y cambia el interruptor a **Sandbox** para probar.
+3. Copia **Client ID** y **Secret** desde la pestaña de credenciales de esa app.
+4. Para cobrar de verdad: cambia a **Live**, copia las credenciales Live y pon `PAYPAL_MODE=live`.
+
+### c) Webhook (opcional pero recomendado)
+
+En la app de PayPal → **Webhooks** → **Add webhook**:
+
+```
+https://TU-BACKEND.onrender.com/api/payments/paypal/webhook
+```
+
+Marca el evento **`PAYMENT.CAPTURE.COMPLETED`** y copia el **Webhook ID** resultante en
+`PAYPAL_WEBHOOK_ID`. Sirve de respaldo: si el comprador cierra el navegador justo después de pagar,
+PayPal igual marca el pedido como pagado.
+
+### d) Base de datos
+
+Si tu base ya existía antes de esta integración, ejecuta una vez en el **SQL Editor**:
+
+```sql
+-- contenido de supabase/migrations/20261112_paypal.sql
+```
+
+Agrega a `orders` las columnas `payment_provider`, `payment_reference`, `paypal_order_id` y `paid_at`,
+más un índice único que impide capturar dos veces la misma orden de PayPal.
+
+### e) Modo demo (sin Supabase)
+
+Sin `SUPABASE_URL` el backend guarda los pedidos en memoria (`backend/src/demo-orders.js`), así que
+puedes probar el flujo completo en localhost con credenciales **sandbox**. Al reiniciar el servidor
+los pedidos demo se pierden; es solo para pruebas.
+
+### f) Pruebas
+
+```bash
+cd backend
+npm test          # 11 pruebas del cliente PayPal (monto, moneda, captura y configuración)
+```
+
+---
+
+## 🌐 4. Frontend en Vercel
 
 1. Sube el repo (incluye la carpeta `backend/`) a GitHub.
 2. En [vercel.com](https://vercel.com) → **Add New → Project** → importa el repo.

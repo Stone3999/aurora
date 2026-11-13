@@ -11,6 +11,17 @@ const isSupabaseConfigured = () =>
   !!process.env.SUPABASE_SERVICE_ROLE_KEY &&
   !process.env.SUPABASE_SERVICE_ROLE_KEY.includes('TU_');
 
+const isPaypalConfigured = () =>
+  !!process.env.PAYPAL_CLIENT_ID &&
+  !process.env.PAYPAL_CLIENT_ID.includes('TU_') &&
+  !!process.env.PAYPAL_CLIENT_SECRET &&
+  !process.env.PAYPAL_CLIENT_SECRET.includes('TU_');
+
+const paypalMode =
+  String(process.env.PAYPAL_MODE || 'sandbox').toLowerCase() === 'live'
+    ? 'live'
+    : 'sandbox';
+
 module.exports = {
   port: Number(process.env.PORT) || 4000,
   nodeEnv: process.env.NODE_ENV || 'development',
@@ -34,5 +45,16 @@ module.exports = {
     freeShippingThreshold: Number(process.env.FREE_SHIPPING_THRESHOLD) || 50,
     shippingCost: Number(process.env.SHIPPING_COST) || 0,
     currency: 'USD'
+  },
+
+  paypal: {
+    // Client ID es público (lo usa el SDK en el navegador); el secret NUNCA
+    // debe salir del backend.
+    clientId: process.env.PAYPAL_CLIENT_ID || '',
+    clientSecret: process.env.PAYPAL_CLIENT_SECRET || '',
+    mode: paypalMode,
+    currency: String(process.env.PAYPAL_CURRENCY || 'USD').toUpperCase(),
+    webhookId: process.env.PAYPAL_WEBHOOK_ID || '',
+    isConfigured: isPaypalConfigured()
   }
 };

@@ -1,0 +1,101 @@
+<!-- PayPal Checkout Modal -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center px-4 py-8">
+  <div class="absolute inset-0 bg-brand-charcoal/50 backdrop-blur-sm" (click)="close()"></div>
+
+  <div
+    class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-brand-rose/30 overflow-hidden"
+  >
+    <!-- Header -->
+    <div class="px-6 py-5 bg-brand-blush border-b border-brand-rose/40 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <app-icon name="credit-card" class="w-5 h-5 text-brand-charcoal" />
+        <h3 class="font-serif text-xl font-semibold text-brand-charcoal">Pago seguro</h3>
+      </div>
+      <button
+        type="button"
+        (click)="close()"
+        [disabled]="processing()"
+        class="w-8 h-8 rounded-full flex items-center justify-center text-brand-charcoal/60 hover:text-brand-charcoal hover:bg-white/70 transition-colors disabled:opacity-40"
+        aria-label="Cerrar pago"
+      >
+        <span class="text-xl leading-none">&times;</span>
+      </button>
+    </div>
+
+    <div class="p-6 space-y-5">
+      @if (success()) {
+        <div class="text-center py-8 space-y-4">
+          <div class="w-16 h-16 mx-auto rounded-full bg-emerald-50 flex items-center justify-center">
+            <app-icon name="check-circle-2" class="w-9 h-9 text-emerald-600" />
+          </div>
+          <h4 class="font-serif text-2xl text-brand-charcoal">¡Pago aprobado!</h4>
+          <p class="text-sm text-brand-charcoal/70 font-light">
+            Estamos confirmando tu pedido y vaciando el carrito…
+          </p>
+        </div>
+      } @else {
+        <!-- Resumen -->
+        <div class="flex items-center justify-between p-4 rounded-2xl bg-[#FAF6F0] border border-brand-rose/20">
+          <div>
+            <p class="text-[10px] uppercase tracking-widest text-brand-charcoal/50">Total a pagar</p>
+            <p class="font-serif text-2xl font-bold text-brand-charcoal">{{ formattedTotal() }}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[10px] uppercase tracking-widest text-brand-charcoal/50">Pedido</p>
+            <p class="text-[11px] font-mono text-brand-charcoal/70">
+              {{ order()?.id?.slice(0, 12) }}…
+            </p>
+          </div>
+        </div>
+
+        @if (config()?.mode === 'sandbox') {
+          <p
+            class="text-[10px] text-center uppercase tracking-widest font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-full py-1.5"
+          >
+            Modo sandbox · no se cobra dinero real
+          </p>
+        }
+
+        <!-- Botones oficiales de PayPal -->
+        <div class="min-h-[56px]">
+          <div #paypalButtons></div>
+        </div>
+
+        @if (loading()) {
+          <div class="flex items-center justify-center gap-2 text-sm text-brand-charcoal/60">
+            <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
+            Cargando PayPal…
+          </div>
+        }
+
+        @if (processing()) {
+          <div class="flex items-center justify-center gap-2 text-sm text-brand-charcoal/70">
+            <app-icon name="loader-circle" class="w-4 h-4 animate-spin" />
+            Confirmando el pago…
+          </div>
+        }
+
+        @if (error()) {
+          <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+            <p class="text-xs text-rose-700">{{ error() }}</p>
+            <button
+              type="button"
+              (click)="retry()"
+              class="text-[11px] uppercase tracking-widest font-semibold text-brand-charcoal underline"
+            >
+              Reintentar
+            </button>
+          </div>
+        }
+
+        <div class="flex items-start gap-2 text-[10px] text-brand-charcoal/50 leading-relaxed">
+          <app-icon name="shield-check" class="w-4 h-4 text-brand-gold shrink-0" />
+          <p>
+            PayPal procesa el pago. LANË no almacena los datos de tu tarjeta. Si cierras esta
+            ventana, tu pedido queda pendiente y no se te cobra.
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+</div>
